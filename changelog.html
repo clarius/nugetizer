@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,maximum-scale=2">
+    <link rel="stylesheet" type="text/css" media="screen" href="/nugetizer/assets/css/style.css?v=f8dc3488bf9826b5fdb737010e4b9f83558d3d54">
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>v0.7.4 (2021-07-20) | nugetizer</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="v0.7.4 (2021-07-20)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A simple to understand packing model for authoring NuGet packages" />
+<meta property="og:description" content="A simple to understand packing model for authoring NuGet packages" />
+<meta property="og:site_name" content="nugetizer" />
+<script type="application/ld+json">
+{"@type":"WebPage","url":"/nugetizer/changelog.html","description":"A simple to understand packing model for authoring NuGet packages","headline":"v0.7.4 (2021-07-20)","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/devlooped/nugetizer">View on GitHub</a>
+
+          <h1 id="project_title">nugetizer</h1>
+          <h2 id="project_tagline">A simple to understand packing model for authoring NuGet packages</h2>
+
+          
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        
+<h2 id="v074-2021-07-20"><a href="https://github.com/devlooped/nugetizer/tree/v0.7.4">v0.7.4</a> (2021-07-20)</h2>
+
+<p><a href="https://github.com/devlooped/nugetizer/compare/v0.7.3...v0.7.4">Full Changelog</a></p>
+
+<p>:sparkles: Implemented enhancements:</p>
+
+<ul>
+  <li>Skip non-nugetized projects when nugetizer runs for solution <a href="https://github.com/devlooped/nugetizer/pull/130">#130</a> (@kzu)</li>
+</ul>
+
+<h2 id="v073-2021-07-19"><a href="https://github.com/devlooped/nugetizer/tree/v0.7.3">v0.7.3</a> (2021-07-19)</h2>
+
+<p><a href="https://github.com/devlooped/nugetizer/compare/v0.7.2...v0.7.3">Full Changelog</a></p>
+
+<p>:sparkles: Implemented enhancements:</p>
+
+<ul>
+  <li>Include readme in package <a href="https://github.com/devlooped/nugetizer/issues/126">#126</a></li>
+</ul>
+
+<p>:bug: Fixed bugs:</p>
+
+<ul>
+  <li>When inferring content, PackInference.PackExclude isn’t properly evaluated <a href="https://github.com/devlooped/nugetizer/issues/128">#128</a></li>
+</ul>
+
+<p>:twisted_rightwards_arrows: Merged:</p>
+
+<ul>
+  <li>Properly evaluate PackInference.PackExclude <a href="https://github.com/devlooped/nugetizer/pull/129">#129</a> (@kzu)</li>
+</ul>
+
+<h2 id="v072-2021-07-16"><a href="https://github.com/devlooped/nugetizer/tree/v0.7.2">v0.7.2</a> (2021-07-16)</h2>
+
+<p><a href="https://github.com/devlooped/nugetizer/compare/v0.7.1...v0.7.2">Full Changelog</a></p>
+
+<p>:sparkles: Implemented enhancements:</p>
+
+<ul>
+  <li>Allow specifying PackFolder in ProjectReference <a href="https://github.com/devlooped/nugetizer/issues/124">#124</a></li>
+</ul>
+
+<p>:twisted_rightwards_arrows: Merged:</p>
+
+<ul>
+  <li>Allow specifying PackFolder in ProjectReference <a href="https://github.com/devlooped/nugetizer/pull/125">#125</a> (@kzu)</li>
+</ul>
+
+<h2 id="v071-2021-06-17"><a href="https://github.com/devlooped/nugetizer/tree/v0.7.1">v0.7.1</a> (2021-06-17)</h2>
+
+<p><a href="https://github.com/devlooped/nugetizer/compare/v0.7.0...v0.7.1">Full Changelog</a></p>
+
+<p>:sparkles: Implemented enhancements:</p>
+
+<ul>
+  <li>Hide –debug option from nugetize tool <a href="https://github.com/devlooped/nugetizer/issues/108">#108</a></li>
+  <li>Parity: add support for PackageReadmeFile property <a href="https://github.com/devlooped/nugetizer/issues/85">#85</a></li>
+</ul>
+
+<p>:twisted_rightwards_arrows: Merged:</p>
+
+<ul>
+  <li>Add support for PackageReadmeFile <a href="https://github.com/devlooped/nugetizer/pull/111">#111</a> (@kzu)</li>
+</ul>
+
+<h2 id="v070-2021-05-10"><a href="https://github.com/devlooped/nugetizer/tree/v0.7.0">v0.7.0</a> (2021-05-10)</h2>
+
+<p><a href="https://github.com/devlooped/nugetizer/compare/v0.6.2...v0.7.0">Full Changelog</a></p>
+
+<p>:sparkles: Implemented enhancements:</p>
+
+<ul>
+  <li>If short sha is available, use it for package metadata <a href="https://github.com/devlooped/nugetizer/issues/94">#94</a></li>
+  <li>Automatically default PackageProjectUrl to RepositoryUrl from source control info <a href="https://github.com/devlooped/nugetizer/issues/91">#91</a></li>
+  <li>Rename PackProjectReference to PackProjectReferences for consistency <a href="https://github.com/devlooped/nugetizer/issues/90">#90</a></li>
+  <li>Populatate RepositoryBranch, ensure we pack it as expected <a href="https://github.com/devlooped/nugetizer/issues/57">#57</a></li>
+  <li>Populate RepositoryUrl/RepositoryCommit early <a href="https://github.com/devlooped/nugetizer/issues/56">#56</a></li>
+</ul>
+
+<p>:twisted_rightwards_arrows: Merged:</p>
+
+<ul>
+  <li>If short SHA is available, use it for package metadata <a href="https://github.com/devlooped/nugetizer/pull/95">#95</a> (@kzu)</li>
+  <li>Populate RepositoryBranch automatically <a href="https://github.com/devlooped/nugetizer/pull/93">#93</a> (@kzu)</li>
+  <li>Improve integration with source link <a href="https://github.com/devlooped/nugetizer/pull/92">#92</a> (@kzu)</li>
+  <li>Bump files with dotnet-file sync <a href="https://github.com/devlooped/nugetizer/pull/86">#86</a> (@kzu)</li>
+</ul>
+
+<h2 id="v062-2021-03-30"><a href="https://github.com/devlooped/nugetizer/tree/v0.6.2">v0.6.2</a> (2021-03-30)</h2>
+
+<p><a href="https://github.com/devlooped/nugetizer/compare/v0.6.0...v0.6.2">Full Changelog</a></p>
+
+<p>:sparkles: Implemented enhancements:</p>
+
+<ul>
+  <li>Add PackDependencies property to opt-out of dependencies packing easily <a href="https://github.com/devlooped/nugetizer/issues/73">#73</a></li>
+  <li>Add support for SuppressDependenciesWhenPacking for compatibility with SDK pack <a href="https://github.com/devlooped/nugetizer/issues/67">#67</a></li>
+  <li>Include readme in package <a href="https://github.com/devlooped/nugetizer/pull/127">#127</a> (@kzu)</li>
+  <li>Add support for opting out of dependencies packing <a href="https://github.com/devlooped/nugetizer/pull/74">#74</a> (@kzu)</li>
+</ul>
+
+<p>:twisted_rightwards_arrows: Merged:</p>
+
+<ul>
+  <li>:package: Fix packing on build and release <a href="https://github.com/devlooped/nugetizer/pull/72">#72</a> (@kzu)</li>
+  <li>🖆 Apply kzu/oss template via dotnet-file <a href="https://github.com/devlooped/nugetizer/pull/71">#71</a> (@kzu)</li>
+  <li>Minor CI and dependencies bumps <a href="https://github.com/devlooped/nugetizer/pull/70">#70</a> (@kzu)</li>
+  <li>🖆 Apply kzu/oss template via dotnet-file <a href="https://github.com/devlooped/nugetizer/pull/69">#69</a> (@kzu)</li>
+  <li>:wastebasket: Add support for compatibility SuppressDependenciesWhenPacking property <a href="https://github.com/devlooped/nugetizer/pull/68">#68</a> (@kzu)</li>
+</ul>
+
+<h2 id="v060-2020-12-10"><a href="https://github.com/devlooped/nugetizer/tree/v0.6.0">v0.6.0</a> (2020-12-10)</h2>
+
+<p><a href="https://github.com/devlooped/nugetizer/compare/v0.5.0...v0.6.0">Full Changelog</a></p>
+
+<p>:sparkles: Implemented enhancements:</p>
+
+<ul>
+  <li>Allow opting out of transitive private assets package reference packing <a href="https://github.com/devlooped/nugetizer/issues/37">#37</a></li>
+  <li>When packing transitive dependencies for PrivateAssets=all, pack lib, not ref <a href="https://github.com/devlooped/nugetizer/issues/36">#36</a></li>
+  <li>Add more common GetTargetPath to multi-targeting <a href="https://github.com/devlooped/nugetizer/pull/43">#43</a> (@kzu)</li>
+</ul>
+
+<p>:bug: Fixed bugs:</p>
+
+<ul>
+  <li>Multitargeting =&gt; No auto nuget package creation <a href="https://github.com/devlooped/nugetizer/issues/34">#34</a></li>
+  <li>Multitarget Issues <a href="https://github.com/devlooped/nugetizer/issues/27">#27</a></li>
+</ul>
+
+<p>:hammer: Other:</p>
+
+<ul>
+  <li>When using PackageReference item metadata, automatically infer Pack=true <a href="https://github.com/devlooped/nugetizer/issues/44">#44</a></li>
+  <li>Provide a default value for package description for compatibility with SDK pack <a href="https://github.com/devlooped/nugetizer/issues/40">#40</a></li>
+  <li>Enable GeneratePathProperty by default <a href="https://github.com/devlooped/nugetizer/issues/35">#35</a></li>
+  <li>Pack issues with multi targeting <a href="https://github.com/devlooped/nugetizer/issues/31">#31</a></li>
+</ul>
+
+<p>:twisted_rightwards_arrows: Merged:</p>
+
+<ul>
+  <li>🖆 Apply kzu/oss template via dotnet-file <a href="https://github.com/devlooped/nugetizer/pull/47">#47</a> (@kzu)</li>
+  <li>When using PackageReference metadata infer Pack=true <a href="https://github.com/devlooped/nugetizer/pull/45">#45</a> (@kzu)</li>
+  <li>When resolving P2P references for packaging, set target framework <a href="https://github.com/devlooped/nugetizer/pull/42">#42</a> (@kzu)</li>
+  <li>Provide a default value for package description for compatibility with SDK pack <a href="https://github.com/devlooped/nugetizer/pull/41">#41</a> (@kzu)</li>
+  <li>Import compatibility props for multi-targeting too <a href="https://github.com/devlooped/nugetizer/pull/39">#39</a> (@kzu)</li>
+  <li>Dev &gt; Main <a href="https://github.com/devlooped/nugetizer/pull/38">#38</a> (@kzu)</li>
+</ul>
+
+<h2 id="v050-2020-11-25"><a href="https://github.com/devlooped/nugetizer/tree/v0.5.0">v0.5.0</a> (2020-11-25)</h2>
+
+<p><a href="https://github.com/devlooped/nugetizer/compare/v0.4.12...v0.5.0">Full Changelog</a></p>
+
+<p>:sparkles: Implemented enhancements:</p>
+
+<ul>
+  <li>Allow packing content from referenced packages <a href="https://github.com/devlooped/nugetizer/issues/30">#30</a></li>
+</ul>
+
+<p>:hammer: Other:</p>
+
+<ul>
+  <li>When using PackOnBuild in multitargeting project, only one TFM is packed <a href="https://github.com/devlooped/nugetizer/issues/32">#32</a></li>
+  <li>When package reference is direct but also indirect, pack fails to include it <a href="https://github.com/devlooped/nugetizer/issues/28">#28</a></li>
+</ul>
+
+<p>:twisted_rightwards_arrows: Merged:</p>
+
+<ul>
+  <li>Dev &gt; Main <a href="https://github.com/devlooped/nugetizer/pull/33">#33</a> (@kzu)</li>
+  <li>Dev &gt; Main <a href="https://github.com/devlooped/nugetizer/pull/29">#29</a> (@kzu)</li>
+  <li>Make sure the output package cleanup happens before Pack <a href="https://github.com/devlooped/nugetizer/pull/25">#25</a> (@kzu)</li>
+</ul>
+
+<h2 id="v0412-2020-11-20"><a href="https://github.com/devlooped/nugetizer/tree/v0.4.12">v0.4.12</a> (2020-11-20)</h2>
+
+<p><a href="https://github.com/devlooped/nugetizer/compare/v0.4.11...v0.4.12">Full Changelog</a></p>
+
+<p>:hammer: Other:</p>
+
+<ul>
+  <li>IsPackable default <a href="https://github.com/devlooped/nugetizer/issues/26">#26</a></li>
+</ul>
+
+<h2 id="v0411-2020-10-29"><a href="https://github.com/devlooped/nugetizer/tree/v0.4.11">v0.4.11</a> (2020-10-29)</h2>
+
+<p><a href="https://github.com/devlooped/nugetizer/compare/v0.4.10...v0.4.11">Full Changelog</a></p>
+
+<h2 id="v0410-2020-10-29"><a href="https://github.com/devlooped/nugetizer/tree/v0.4.10">v0.4.10</a> (2020-10-29)</h2>
+
+<p><a href="https://github.com/devlooped/nugetizer/compare/v0.4.9...v0.4.10">Full Changelog</a></p>
+
+<p>:bug: Fixed bugs:</p>
+
+<ul>
+  <li>Not Respecting “Generate NuGet package on build” <a href="https://github.com/devlooped/nugetizer/issues/22">#22</a></li>
+</ul>
+
+<p>:twisted_rightwards_arrows: Merged:</p>
+
+<ul>
+  <li>Improvements on transitive package content with relative paths <a href="https://github.com/devlooped/nugetizer/pull/24">#24</a> (@kzu)</li>
+  <li>Minor improvements to dotnet-nugetize <a href="https://github.com/devlooped/nugetizer/pull/23">#23</a> (@kzu)</li>
+  <li>TargetPath and Compile pack improvements <a href="https://github.com/devlooped/nugetizer/pull/21">#21</a> (@kzu)</li>
+  <li>Inner devloop improvements <a href="https://github.com/devlooped/nugetizer/pull/18">#18</a> (@kzu)</li>
+</ul>
+
+<h2 id="v049-2020-10-26"><a href="https://github.com/devlooped/nugetizer/tree/v0.4.9">v0.4.9</a> (2020-10-26)</h2>
+
+<p><a href="https://github.com/devlooped/nugetizer/compare/v0.4.8...v0.4.9">Full Changelog</a></p>
+
+<h2 id="v048-2020-10-25"><a href="https://github.com/devlooped/nugetizer/tree/v0.4.8">v0.4.8</a> (2020-10-25)</h2>
+
+<p><a href="https://github.com/devlooped/nugetizer/compare/v0.4.7...v0.4.8">Full Changelog</a></p>
+
+<h2 id="v047-2020-10-21"><a href="https://github.com/devlooped/nugetizer/tree/v0.4.7">v0.4.7</a> (2020-10-21)</h2>
+
+<p><a href="https://github.com/devlooped/nugetizer/compare/v0.4.6...v0.4.7">Full Changelog</a></p>
+
+<p>:twisted_rightwards_arrows: Merged:</p>
+
+<ul>
+  <li>If an item provides TargetPath, preserve it as relative to the PackFolder <a href="https://github.com/devlooped/nugetizer/pull/20">#20</a> (@kzu)</li>
+  <li>By default, packing Compile should not include generated files <a href="https://github.com/devlooped/nugetizer/pull/19">#19</a> (@kzu)</li>
+</ul>
+
+<h2 id="v046-2020-10-20"><a href="https://github.com/devlooped/nugetizer/tree/v0.4.6">v0.4.6</a> (2020-10-20)</h2>
+
+<p><a href="https://github.com/devlooped/nugetizer/compare/v0.4.5...v0.4.6">Full Changelog</a></p>
+
+<p>:twisted_rightwards_arrows: Merged:</p>
+
+<ul>
+  <li>Add automatic cleanups to improve the inner devloop <a href="https://github.com/devlooped/nugetizer/pull/17">#17</a> (@kzu)</li>
+</ul>
+
+<h2 id="v045-2020-10-08"><a href="https://github.com/devlooped/nugetizer/tree/v0.4.5">v0.4.5</a> (2020-10-08)</h2>
+
+<p><a href="https://github.com/devlooped/nugetizer/compare/v0.4.4...v0.4.5">Full Changelog</a></p>
+
+<p>:twisted_rightwards_arrows: Merged:</p>
+
+<ul>
+  <li>Add support for Microsoft.Build.NoTargets SDK <a href="https://github.com/devlooped/nugetizer/pull/16">#16</a> (@kzu)</li>
+</ul>
+
+<h2 id="v044-2020-10-08"><a href="https://github.com/devlooped/nugetizer/tree/v0.4.4">v0.4.4</a> (2020-10-08)</h2>
+
+<p><a href="https://github.com/devlooped/nugetizer/compare/v0.4.3...v0.4.4">Full Changelog</a></p>
+
+<p>:twisted_rightwards_arrows: Merged:</p>
+
+<ul>
+  <li>Ensure we have at least a dependency when testing package license <a href="https://github.com/devlooped/nugetizer/pull/15">#15</a> (@kzu)</li>
+  <li>Make sure Release configuration is used in all steps <a href="https://github.com/devlooped/nugetizer/pull/14">#14</a> (@kzu)</li>
+  <li>Dev &gt; Main <a href="https://github.com/devlooped/nugetizer/pull/13">#13</a> (@kzu)</li>
+  <li>Fix wrong curly brace in helper from #region <a href="https://github.com/devlooped/nugetizer/pull/12">#12</a> (@kzu)</li>
+  <li>Dev &gt; Main <a href="https://github.com/devlooped/nugetizer/pull/11">#11</a> (@kzu)</li>
+  <li>Centrally managed package versions support <a href="https://github.com/devlooped/nugetizer/pull/10">#10</a> (@kzu)</li>
+</ul>
+
+<h2 id="v043-2020-10-04"><a href="https://github.com/devlooped/nugetizer/tree/v0.4.3">v0.4.3</a> (2020-10-04)</h2>
+
+<p><a href="https://github.com/devlooped/nugetizer/compare/v0.4.2...v0.4.3">Full Changelog</a></p>
+
+<h2 id="v042-2020-10-04"><a href="https://github.com/devlooped/nugetizer/tree/v0.4.2">v0.4.2</a> (2020-10-04)</h2>
+
+<p><a href="https://github.com/devlooped/nugetizer/compare/v0.4.1...v0.4.2">Full Changelog</a></p>
+
+<p>:twisted_rightwards_arrows: Merged:</p>
+
+<ul>
+  <li>Dev &gt; Main <a href="https://github.com/devlooped/nugetizer/pull/9">#9</a> (@kzu)</li>
+</ul>
+
+<h2 id="v041-2020-10-02"><a href="https://github.com/devlooped/nugetizer/tree/v0.4.1">v0.4.1</a> (2020-10-02)</h2>
+
+<p><a href="https://github.com/devlooped/nugetizer/compare/v0.4.0...v0.4.1">Full Changelog</a></p>
+
+<p>:twisted_rightwards_arrows: Merged:</p>
+
+<ul>
+  <li>Make sure we never get duplicate NuspecFile items <a href="https://github.com/devlooped/nugetizer/pull/8">#8</a> (@kzu)</li>
+</ul>
+
+<h2 id="v040-2020-10-01"><a href="https://github.com/devlooped/nugetizer/tree/v0.4.0">v0.4.0</a> (2020-10-01)</h2>
+
+<p><a href="https://github.com/devlooped/nugetizer/compare/v0.3.0...v0.4.0">Full Changelog</a></p>
+
+<p>:twisted_rightwards_arrows: Merged:</p>
+
+<ul>
+  <li>Rename Kind to PackFolder <a href="https://github.com/devlooped/nugetizer/pull/7">#7</a> (@kzu)</li>
+</ul>
+
+<h2 id="v030-2020-10-01"><a href="https://github.com/devlooped/nugetizer/tree/v0.3.0">v0.3.0</a> (2020-10-01)</h2>
+
+<p><a href="https://github.com/devlooped/nugetizer/compare/v0.3.0-rc...v0.3.0">Full Changelog</a></p>
+
+<p>:twisted_rightwards_arrows: Merged:</p>
+
+<ul>
+  <li>Dev &gt; Main <a href="https://github.com/devlooped/nugetizer/pull/6">#6</a> (@kzu)</li>
+</ul>
+
+<h2 id="v030-rc-2020-09-30"><a href="https://github.com/devlooped/nugetizer/tree/v0.3.0-rc">v0.3.0-rc</a> (2020-09-30)</h2>
+
+<p><a href="https://github.com/devlooped/nugetizer/compare/v0.3.0-beta...v0.3.0-rc">Full Changelog</a></p>
+
+<p>:hammer: Other:</p>
+
+<ul>
+  <li>Add PackageFolder support as project property <a href="https://github.com/devlooped/nugetizer/issues/1">#1</a></li>
+</ul>
+
+<p>:twisted_rightwards_arrows: Merged:</p>
+
+<ul>
+  <li>Dev &gt; Main <a href="https://github.com/devlooped/nugetizer/pull/5">#5</a> (@kzu)</li>
+</ul>
+
+<h2 id="v030-beta-2020-09-30"><a href="https://github.com/devlooped/nugetizer/tree/v0.3.0-beta">v0.3.0-beta</a> (2020-09-30)</h2>
+
+<p><a href="https://github.com/devlooped/nugetizer/compare/v0.3.0-alpha...v0.3.0-beta">Full Changelog</a></p>
+
+<p>:twisted_rightwards_arrows: Merged:</p>
+
+<ul>
+  <li>Dev &gt; Main <a href="https://github.com/devlooped/nugetizer/pull/4">#4</a> (@kzu)</li>
+</ul>
+
+<h2 id="v030-alpha-2020-09-29"><a href="https://github.com/devlooped/nugetizer/tree/v0.3.0-alpha">v0.3.0-alpha</a> (2020-09-29)</h2>
+
+<p><a href="https://github.com/devlooped/nugetizer/compare/a12adfed1f05c215b10cac40ee5f2465771c785d...v0.3.0-alpha">Full Changelog</a></p>
+
+<p>:hammer: Other:</p>
+
+<ul>
+  <li>Add RepositoryBranch/RepositoryCommit support <a href="https://github.com/devlooped/nugetizer/issues/2">#2</a></li>
+</ul>
+
+<p>:twisted_rightwards_arrows: Merged:</p>
+
+<ul>
+  <li>Dev &gt; Main <a href="https://github.com/devlooped/nugetizer/pull/3">#3</a> (@kzu)</li>
+</ul>
+
+<p>* <em>This Changelog was automatically generated by <a href="https://github.com/github-changelog-generator/github-changelog-generator">github_changelog_generator</a></em></p>
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        
+        <p class="copyright">nugetizer maintained by <a href="https://github.com/devlooped">devlooped</a></p>
+        
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+  </body>
+</html>
