@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net7.0;net7.0-android</TargetFrameworks>
+    <TargetFrameworks Condition="$(OSPlatform) == 'Windows'">$(TargetFrameworks);net7.0-windows</TargetFrameworks>
+    <TargetFrameworks Condition="$(OSPlatform) == 'OSX'">$(TargetFrameworks);net7.0-maccatalyst;net7.0-ios</TargetFrameworks>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>    
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NuGetizer" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.3" />
+  </ItemGroup>
+
+</Project>

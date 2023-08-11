@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.Build.NoTargets/3.7.0">
+
+  <PropertyGroup>
+    <PackageId>Quickstart</PackageId>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NuGetizer" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" 
+                      PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Analyzer\Quickstart.CodeAnalysis.csproj" />
+    <ProjectReference Include="..\Build\Quickstart.Tasks.csproj" />
+    <ProjectReference Include="..\Lib\Quickstart.csproj" />
+    <ProjectReference Include="..\Tools\Quickstart.csproj" />
+  </ItemGroup>
+
+</Project>

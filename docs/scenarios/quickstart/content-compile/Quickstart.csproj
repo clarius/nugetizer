@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>Quickstart</PackageId>
+    <PackCompile>true</PackCompile>
+    <PackBuildOutput>false</PackBuildOutput>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NuGetizer" />
+  </ItemGroup>
+
+</Project>

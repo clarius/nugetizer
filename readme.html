@@ -1,0 +1,558 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title> nugetizer | NuGetizer </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content=" nugetizer | NuGetizer ">
+    <meta name="generator" content="docfx 2.59.4.0">
+    
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles/docfx.vendor.css">
+    <link rel="stylesheet" href="styles/docfx.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="">
+    
+    <meta property="docfx:rel" content="">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="index.html">
+                <img id="logo" class="svg" src="logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="article row grid">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="iconhttpsrawgithubusercontentcomdevloopednugetizermainimgnugetizer-32png-nugetizer"><img src="https://raw.githubusercontent.com/devlooped/nugetizer/main/img/nugetizer-32.png" alt="Icon"> nugetizer</h1>
+
+<p>Simple, flexible, intuitive and powerful NuGet packaging.</p>
+<p><a href="https://www.nuget.org/packages/NuGetizer"><img src="https://img.shields.io/nuget/vpre/NuGetizer.svg?color=royalblue" alt="Version"></a> <a href="https://www.nuget.org/packages/NuGetizer"><img src="https://img.shields.io/nuget/dt/NuGetizer?color=darkmagenta" alt="Downloads"></a> <a href="https://github.com/devlooped/nugetizer/blob/main/license.txt"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a> <a href="https://github.com/devlooped/nugetizer"><img src="https://img.shields.io/badge/-source-181717.svg?logo=GitHub" alt="GitHub"></a></p>
+<p><a href="https://pkg.kzu.io/index.json"><img src="https://img.shields.io/endpoint?url=https://shields.kzu.io/vpre/nugetizer/main&amp;label=nuget.ci&amp;color=brightgreen" alt="CI Version"></a> <a href="https://github.com/devlooped/nugetizer/actions?query=branch%3Amain+workflow%3Abuild+"><img src="https://github.com/devlooped/nugetizer/workflows/build/badge.svg?branch=main" alt="CI Status"></a></p>
+<h1 id="why">Why</h1>
+<p>The .NET SDK has built-in support for packing. The design of its targets, property 
+and item names it not very consistent, however. When packing non-trivial solutions 
+with multiple projects, it&#39;s quite hard to actually get it to pack exactly the 
+way you want it to.</p>
+<p>An <a href="https://github.com/NuGet/Home/wiki/NuGetizer-3000">alternative clean and clear design</a> 
+was proposed and I got to implement the initial spec, but it never got traction 
+with the NuGet team.</p>
+<h1 id="how">How</h1>
+<p>You <em>must</em> install the <a href="https://nuget.org/packages/nugetizer">NuGetizer</a> package on all 
+projects that are directly or indirectly being packed, since NuGetizer relies heavily on 
+MSBuild to provide discovery of contributed package content from projects and their 
+project references.</p>
+<p>Package Manager:</p>
+<pre><code>Install-Package NuGetizer
+</code></pre><p>CLI:</p>
+<pre><code>dotnet add package NuGetizer
+</code></pre><p>MSBuild:</p>
+<pre><code>&lt;PackageReference Include=&quot;NuGetizer&quot; Version=&quot;...&quot; /&gt;
+</code></pre><p>You don&#39;t need to set <code>PrivateAssets=all</code> for NuGetizer: it will automatically 
+exclude itself from your packed dependencies. </p>
+<h1 id="what">What</h1>
+<p>With the learnings from years of building and shipping packages of different 
+levels of complexity, as well as significant use of the SDK Pack functionality 
+and its various extension points, NuGetizer takes a fresh look and exposes a 
+clean set of primitives so that you never have to create <code>.nuspec</code> files again.</p>
+<p>All the <a href="https://docs.microsoft.com/en-us/nuget/reference/msbuild-targets#pack-target">built-in properties</a> 
+are supported.</p>
+<p>A key difference is that adding arbitrary content to the package is supported 
+with the first-class <code>PackageFile</code> item for absolute control of the package 
+contents.</p>
+<pre><code class="lang-xml">&lt;ItemGroup&gt;
+    &lt;PackageFile Include=&quot;..&quot; PackagePath=&quot;...&quot; /&gt;
+&lt;/ItemGroup&gt;
+</code></pre><p>Another key design choice is that any package content inference should be trivial 
+to turn off wholesale in case the heuristics don&#39;t do exactly what you need. Just set 
+<code>EnablePackInference=false</code> and you will only get explicit <code>PackageFile</code> items 
+in your package. This gives you ultimate control without having to understand any of the inference rules explained below. </p>
+<p>All <a href="src/NuGetizer.Tasks/NuGetizer.Inference.targets">inference rules are laid out in a single .targets</a> file that&#39;s easy to inspect them to learn more, and the file is not imported at all when <code>EnablePackInference=false</code>.</p>
+<h2 id="package-readme">Package Readme</h2>
+<p>Since the introduction of <a href="https://docs.microsoft.com/en-us/nuget/nuget-org/package-readme-on-nuget-org">package readme on nuget.org</a>, 
+more and more packages are leveraging this feature to make a package more discoverable and user friendly. One common 
+need that arises is reusing existing documentation content that exists elsewhere in the project repository, such as 
+on the root readme for the project (which typically contains additional information beyond user facing documentation, 
+such as how to clone, build and contribute to the repository). In order to maximize reuse for these documentation files, 
+NuGetizer supports includes in the package readme, such as:</p>
+<pre><code>This is the package readme.
+&lt;!-- include ../../../readme.md#usage --&gt;
+
+&lt;!-- include ../../../footer.md --&gt;
+</code></pre><p>This readme includes a specific section of the repository root readme (via <code>#usage</code>), which is defined as follows:</p>
+<pre><code># Project Foo
+This is a general section on cloning, contributing, CI badges, etc.
+
+&lt;!-- #usage --&gt;
+# Usage
+Here we explain our awesome API...
+&lt;!-- #usage --&gt;
+...
+</code></pre><p>By defining both starting and closing <code>#usage</code> markup, the package readme can include a specific section. 
+The footer, by contrast, is included wholesale. </p>
+<p>When the <code>.nupkg</code> is created, these includes are resolved automatically so you keep content duplication to a 
+minimum. Nested includes are also supported (i.e. <code>footer.md</code> might in turn include a <code>sponsors.md</code> file or 
+a fragment of it).</p>
+<h2 id="dotnet-nugetize">dotnet-nugetize</h2>
+<p>Carefully tweaking your packages until they look exactly the way you want them should not be a tedious and slow process. Even requiring your project to be built between changes can be costly and reduce the speed at which you can iterate on the packaging aspects of the project. Also, generating the final <code>.nupkg</code>, opening it in a tool and inspecting its content, is also not ideal for rapid iteration.</p>
+<p>For this reason, NuGetizer provides a dotnet global tool to make this process straightforward and quick. Installation is just like for any other dotnet tool:</p>
+<pre><code>&gt; dotnet tool install -g dotnet-nugetize
+</code></pre><p>After installation, you can just run <code>nugetize</code> from the project directory to quickly get a report of the package that would be generated. This is done in the fastest possible way without compromising your customizations to the build process. They way this is achieved is by a combination of a simulated <a href="https://github.com/dotnet/project-system/blob/master/docs/design-time-builds.md">design-time build</a> that skips the compiler invocation and avoids the output file copying entirely, and built-in support in NuGetizer to emit the entire contents of the package as MSBuild items with full metadata, that the tool can use to render an accurate report that contains exactly the same information that would be used to emit the final <code>.nupkg</code> without actually generating it.</p>
+<p>Here&#39;s a sample output screenshot:</p>
+<p><img src="https://raw.githubusercontent.com/devlooped/nugetizer/main/img/dotnet-nugetize.png" alt="nugetize screenshot"></p>
+<h2 id="inner-devloop">Inner Devloop</h2>
+<p>Authoring, testing and iterating on your nuget packages should be easy and straightforward. NuGetizer makes it trivial to consume your locally-built packages from a sample test project to exercise its features, by automatically performing the following cleanups whenever you build a new version of a package:</p>
+<p>   a. Clean previous versions of the same package in the package output path
+   b. Clean NuGet cache folder for the package id (i.e. <em>%userprofile%.nuget\packages\mypackage</em>)
+   c. Clean the NuGet HTTP cache: this avoids a subsequent restore from a consuming project from getting a cached older version, in case you build locally the same version number that was previously restored.</p>
+<p>This means that to iterate quickly, these are the only needed steps:</p>
+<ol>
+<li>Build/Pack a new version</li>
+<li>Run Restore/Build on the sample project</li>
+</ol>
+<p>To make the process smoother, consider the following tweaks:</p>
+<ul>
+<li><p>Use single <code>PackageOutputPath</code>: if you create multiple packages, it&#39;s helpful to place them all in a single output directory. This can be achieved easily by adding the property to a <code>Directory.Build.props</code> file and place it at your repository root (or your <code>src</code> folder).:</p>
+<pre><code class="lang-xml">&lt;PackageOutputPath Condition=&quot;&#39;$(PackageOutputPath)&#39; == &#39;&#39;&quot;&gt;$(MSBuildThisFileDirectory)..\bin&lt;/PackageOutputPath&gt;
+</code></pre></li>
+<li><p>Use <code>&lt;RestoreSources&gt;</code> in your consuming/test projects: this allows you to point to that common folder and even do it selectively only if the folder exists (i.e. use local packages if you just built them, use regular feed otherwise). You can place this too in a <code>Directory.Build.props</code> for all your consuming sample/test projects to use:</p>
+<pre><code class="lang-xml">&lt;RestoreSources&gt;https://api.nuget.org/v3/index.json;$(RestoreSources)&lt;/RestoreSources&gt;
+&lt;RestoreSources Condition=&quot;Exists(&#39;$(MSBuildThisFileDirectory)..\..\bin\&#39;)&quot;&gt;
+  $([System.IO.Path]::GetFullPath(&#39;$(MSBuildThisFileDirectory)..\..\bin&#39;));$(RestoreSources)
+&lt;/RestoreSources&gt;
+</code></pre></li>
+</ul>
+<h2 id="package-contents-inference">Package Contents Inference</h2>
+<p>Package content inference provides some built-in heuristics for common scenarios so you 
+don&#39;t have to customize the project much and can instead let the rules build up the contents 
+of your package by interpreting your existing project elements. It works by transforming various built-in 
+items into corresponding <code>PackageFile</code> items, much as if you had added them by hand.</p>
+<p>For example, if you create a <code>readme.md</code> file alongside the project, it will (by default) be 
+automatically included in the package and set as the <code>Readme</code> metadata. Likewise, if you provide 
+the <code>$(PackageReadmeFile)</code> property pointing to a different filename (say, <code>readme.txt</code>), it will 
+also be automatically added to the package, without you having to add an explicit <code>PackageFile</code> or 
+update the item with <code>&lt;None Update=&#39;readme.txt&#39; Pack=&#39;true&#39; /&gt;</code> so it packs properly. </p>
+<blockquote><p>NOTE: package readme inference can be turned off with the <code>PackReadme=false</code> project property.</p>
+</blockquote>
+<p>Inference can be turned off for specific items by just adding <code>Pack=&quot;false&quot;</code> 
+item metadata. It can also be turned off by default for all items of a given type with an item definition group:</p>
+<pre><code class="lang-xml">&lt;ItemDefinitionGroup&gt;
+  &lt;PackageReference&gt;
+    &lt;Pack&gt;false&lt;/Pack&gt;
+  &lt;/PackageReference&gt;
+&lt;/ItemDefinitionGroup&gt;
+</code></pre><p>The basic item metadata that drive pack inference are:</p>
+<ol>
+<li><strong>Pack</strong>: <em>true</em>/<em>false</em>, determines whether inference applies to the item at all.</li>
+<li><strong>PackagePath</strong>: final path within the package. Can be a directory path ending in <code>\</code> and in that case the item&#39;s <em>RelativeDir</em>, <em>Filename</em> and <em>Extension</em> will be appended automatically. Linked files are also supported automatically.</li>
+</ol>
+<p>If the item does <strong>not</strong> provide a <em>PackagePath</em>, and <em>Pack</em> is not <em>false</em>, the inference targets wil try to determine the right value, based on the following additional metadata:</p>
+<ul>
+<li><strong>PackFolder</strong>: typically one of the <a href="https://github.com/NuGet/NuGet.Client/blob/dev/src/NuGet.Core/NuGet.Packaging/PackagingConstants.cs#L19">built-in package folders</a>, such as <em>build</em>, <em>lib</em>, etc.</li>
+<li><strong>FrameworkSpecific</strong>: <em>true</em>/<em>false</em>, determines whether the project&#39;s target framework is used when building the final <em>PackagePath</em>.</li>
+<li><strong>TargetPath</strong>: optional PackFolder-relative path for the item. If not provided, the relative path of the item in the project (or its <em>Link</em> metadata) is used.</li>
+</ul>
+<p>When an item specifies <em>FrameworkSpecific=true</em>, the project&#39;s target framework is added to the final package path, such as <code>lib\netstandard2.0\My.dll</code>. Since the package folder itself typically determines whether it contains framework-specific files or not, the <em>FrameworkSpecific</em> value has sensible defaults so you don&#39;t have to specify it unless you want to override it. The <a href="src/NuGetizer.Tasks/NuGetizer.props">default values from NuGetizer.props</a> are:</p>
+<table>
+<thead>
+<tr>
+<th>PackFolder</th>
+<th>FrameworkSpecific</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>content (*)</td>
+<td>true</td>
+</tr>
+<tr>
+<td>lib</td>
+<td>true</td>
+</tr>
+<tr>
+<td>dependency (**)</td>
+<td>true</td>
+</tr>
+<tr>
+<td>frameworkReference (**)</td>
+<td>true</td>
+</tr>
+<tr>
+<td>build</td>
+<td>false</td>
+</tr>
+<tr>
+<td>all others (***)</td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+<p>* Since the plain <em>content</em> folder <a href="https://docs.nuget.org/ndocs/schema/nuspec#using-the-contentfiles-element-for-content-files">is deprecated as of NuGet v3+</a>, we use <em>content</em> to mean <em>contentFiles</em> throughout the docs, targets and implementation. They are interchangeable in NuGetizer and always mean the latter.</p>
+<p>** <em>dependency</em> and <em>frameworkReference</em> are pseudo folders containing the package references and framework (<code>&lt;Reference ...</code>) references.</p>
+<p>** tool(s), native, runtime(s), ref, analyzer(s), source/src, any custom folder.</p>
+<p>The <code>PackFolder</code> property (at the project level) determines the <em>PackFolder</em> metadata value for the build outputs of the project (and its xml docs, pdb and other related files like satellite assemblies). It defaults to <code>lib</code>.</p>
+<p>For files that end up mapping to <em>content</em>, you can also specify <em>BuildAction</em>, <em>CopyToOutput</em> and <em>Flatten</em> item metadata, <a href="https://docs.nuget.org/ndocs/schema/nuspec#using-the-contentfiles-element-for-content-files">as supported by NuGet v4+</a>. In addition to those, NuGetizer also supports <em>CodeLanguage</em> and <em>TargetFramework</em> to <a href="https://docs.microsoft.com/en-us/nuget/reference/nuspec#package-folder-structure">control the subfolders</a> too.</p>
+<p>Since it wouldn&#39;t be much fun having to annotate everything with either <em>PackFolder</em> or <em>PackagePath</em> (and also the additional <em>content</em> file metadata as needed), most common item types have sensible defaults too, defined in <a href="src/NuGetizer.Tasks/NuGetizer.Inference.targets">NuGetizer.Inference.targets</a>. </p>
+<table>
+<thead>
+<tr>
+<th>ItemType</th>
+<th>Default Metadata</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content<br>EmbeddedResource<br>ApplicationDefinition<br>Page<br>Resource<br>SplashScreen<br>DesignData<br>DesignDataWithDesignTimeCreatableTypes<br>CodeAnalysisDictionary<br>AndroidAsset<br>AndroidResource<br>BundleResource</td>
+<td>PackFolder=&quot;content&quot; <br>BuildAction=&quot;[<em>ItemType</em>]&quot;</td>
+</tr>
+<tr>
+<td>None</td>
+<td>PackFolder=&quot;&quot; <br>BuildAction=&quot;None&quot;</td>
+</tr>
+<tr>
+<td>Compile</td>
+<td>PackFolder=&quot;content&quot; <br>BuildAction=&quot;Compile&quot;<br>CodeLanguage=&quot;$(DefaultLanguageSourceExtension)&quot;</td>
+</tr>
+</tbody>
+</table>
+<p><code>None</code> is sort of special in that the package folder is root of the package by default.</p>
+<p>Whether items are packed by default or not is controlled by properties named after the item type (such as <code>PackEmbeddedResource</code>, <code>PackNone</code> and so on). Except for the ones below, they all default to <em>false</em> (or more precisely, empty, so, not <em>true</em>).</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Default Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PackBuildOutput</td>
+<td>true</td>
+</tr>
+<tr>
+<td>PackReadme</td>
+<td>true</td>
+</tr>
+<tr>
+<td>PackSymbols</td>
+<td>true if PackBuildOutput=true (*)</td>
+</tr>
+<tr>
+<td>PackDependencies</td>
+<td>empty (**)</td>
+</tr>
+<tr>
+<td>PackFrameworkReferences</td>
+<td>true if PackFolder=lib, false if PackDependencies=false</td>
+</tr>
+<tr>
+<td>PackProjectReferences</td>
+<td>true</td>
+</tr>
+</tbody>
+</table>
+<p>* Back in the day, PDBs were Windows-only and fat files. Nowadays, portable PDBs 
+   (the new default) are lightweight and can even be embedded. Combined with <a href="https://github.com/dotnet/sourcelink">SourceLink</a>, including them in the package (either standalone or embeded) provides the best experience for your users, so it&#39;s the default.</p>
+<p>** In some scenarios, you might want to turn off packing behavior for all PackageReference and FrameworkReferences alike. Setting PackDependencies=false achieves that.</p>
+<p>The various supported item inference are surfaced as <code>&lt;PackInference Include=&quot;Compile;Content;None;...&quot; /&gt;</code> items, which are ultimately evaluated together with the metadata for the individual items. These make the package inference candidates. You can also provide an exclude expression for that evaluation so that certain items are excluded by default, even if every other item of the same type is included. For example, to pack all <code>Content</code> items, except those in the <code>docs</code> folder, you can simply update the inference item like so:</p>
+<pre><code class="lang-xml">&lt;ItemGroup&gt;
+  &lt;PackInference Update=&quot;Content&quot; PackExclude=&quot;docs/**/*.*&quot; /&gt;
+&lt;/ItemGroup&gt;
+</code></pre><p>Of course you could have achieved a similar effect by updating the Content items themselves too instead:</p>
+<pre><code class="lang-xml">&lt;ItemGroup&gt;
+  &lt;Content Update=&quot;docs/**/*.*&quot; Pack=&quot;false&quot; /&gt;
+&lt;/ItemGroup&gt;
+</code></pre><p>By default (see <a href="src/NuGetizer.Tasks/NuGetizer.Inference.props">NuGetizer.Inference.props</a>), <code>Compile</code> has the following exclude expression, so generated intermediate compile files aren&#39;t packed:</p>
+<pre><code class="lang-xml">&lt;ItemGroup&gt;
+  &lt;PackInference Include=&quot;Compile&quot;
+                 PackExclude=&quot;$(IntermediateOutputPath)/**/*$(DefaultLanguageSourceExtension)&quot; /&gt;
+&lt;/ItemGroup&gt;
+</code></pre><h3 id="copytooutputdirectory">CopyToOutputDirectory</h3>
+<p>There is a common metadata item that&#39;s used quite frequently: <em>CopyToOutputDirectory</em>, which is typically set to <em>PreserveNewest</em> to change it from its default behavior (when empty or set to <em>Never</em>).</p>
+<blockquote><p>NOTE: if you&#39;re using <em>Always</em>, you&#39;re likely ruining your build performance for no reason.</p>
+</blockquote>
+<p>When copying items to the output directory, you&#39;re implicitly saying that those items are needed in order to run/execute the built output. For example, if you have build targets/props in a build-only project (i.e. the one that builds the tasks), then those files are needed alongside the built output when packaging.</p>
+<p>Given this common scenario, NuGetizer changes the default <code>PackFolder</code> metadata for packable items (i.e. those with explicit <code>Pack=true</code> metadata or defaulted to <em>true</em>, such as <code>Content</code> items) to match the <code>PackFolder</code> property defined for the project&#39;s built output, whenever <code>CopyToOutputDirectory</code> is not empty or <em>Never</em>.</p>
+<p>Like other default inference behaviors, you can always opt out of it by specifying an explicit <code>PackFolder</code> item metadata.</p>
+<p>In addition, the resulting <code>PackageFile</code> items for these items point to the location in the project&#39;s output folder, rather than the source location. This makes it easier to have custom behavior that might modify the item after copying to the output directory.</p>
+<h3 id="packagereference">PackageReference</h3>
+<p>Package references are turned into package dependencies by default (essentially converting <code>&lt;PackageReference&gt;</code> to <code>&lt;PackageFile ... PackFolder=&quot;Dependency&quot;&gt;</code>), unless <code>PackDependencies</code> property is <code>false</code>. If the package reference specifies <code>PrivateAssets=&quot;all&quot;</code>, however, it&#39;s not added as a dependency. Instead, in that case, all the files contributed to the compilation (more precisely: all copy-local runtime dependencies) are placed in the same <code>PackFolder</code> as the project&#39;s build output (if packable, depending on <code>PackBuildOutput</code> property).</p>
+<p>Build-only dependencies that don&#39;t contribute assemblies to the output (i.e. analyzers or things like <a href="https://github.com/devlooped/GitInfo">GitInfo</a> or <a href="https://github.com/devlooped/ThisAssembly">ThisAssembly</a> won&#39;t cause any extra items.</p>
+<p>This even works transitively, so if you use <em>PrivateAssets=all</em> on package reference <em>A</em>, which in turn has a package dependency on <em>B</em> and <em>B</em> in turn depends on <em>C</em>, all of <em>A</em>, <em>B</em> and <em>C</em> assets will be packed. You can opt out of the transitive packing with <code>PackTransitive=false</code> metadata on the <code>PackageReference</code>.</p>
+<p>As usual, you can change this default behavior by using <code>Pack=false</code> metadata.</p>
+<p>You can also control precisely what assets are surfaced from your dependencies, by 
+using <code>PackInclude</code> and <code>PackExclude</code> metadata on the <code>PackageReference</code>. This will 
+result in the corresponding <code>include</code>/<code>exclude</code> attributes as documented in the 
+<a href="https://learn.microsoft.com/en-us/nuget/reference/nuspec#dependencies-element">nuspec reference</a>. If not defined, both are defaulted to the package 
+reference <code>IncludeAssets</code> and <code>ExcludeAssets</code> metadata.</p>
+<h3 id="projectreference">ProjectReference</h3>
+<p>Unlike SDK Pack that <a href="https://docs.microsoft.com/en-us/nuget/reference/msbuild-targets#project-to-project-references">considers project references as package references by default</a>, NuGetizer has an explicit contract between projects: the <code>GetPackageContents</code> target. This target is invoked when packing project references, and it returns whatever the referenced project exposes as package contents (including the inference rules above). If the project is <em>packable</em> (that is, it produces a package, denoted by the presence of a <code>PackageId</code> property or <code>IsPackable=true</code>, for compatibility with SDK Pack), it will be packed as a dependency/package reference instead.</p>
+<p>This means that by default, things Just Work: if you reference a library with no <code>PackageId</code>, it becomes part of whatever output your main project produces (analyzer, tools, plain lib). The moment you decide you want to make it a package on its own, you add the required metadata properties to that project and it automatically becomes a dependency instead.</p>
+<p>This works flawlessly even when multi-targeting: if the main (packable) project multitargets <code>net472;netcoreapp3.1</code>, say, and it references a <code>netstandard2.0</code> (non-packable) library, the package contents will be:</p>
+<pre><code>  /lib/
+    net472/
+      library.dll
+      library.pdb
+      sample.dll
+      sample.pdb
+    netcoreapp3.1/
+      library.dll
+      library.pdb
+      sample.dll
+      sample.pdb
+</code></pre><p>If the packaging metadata is added to the library, it automatically turns to:</p>
+<pre><code>Package: Sample.1.0.0.nupkg
+         ...\Sample.nuspec
+    Authors                 : sample
+    Description             : Sample
+    Version                 : 1.0.0
+  Dependencies:
+    net472
+      Library, 1.0.0
+    netcoreapp3.1
+      Library, 1.0.0
+  Contents:
+    /lib/
+      net472/
+        sample.dll
+        sample.pdb
+      netcoreapp3.1/
+        sample.dll
+        sample.pdb
+</code></pre><p>If you need to tweak target folder of a referenced project, you can also do so 
+via the <code>PackFolder</code> attribute on the <code>ProjectReference</code> itself:</p>
+<pre><code class="lang-xml">   &lt;ProjectReference Include=&quot;..\MyDesktopLibrary\MyDesktopLibrary.csproj&quot; 
+                     PackFolder=&quot;lib\net6.0\SpecificFolder&quot; /&gt;
+</code></pre><blockquote><p>NOTE: this is a convenience shortcut since you can already pass additional project 
+properties for project references using the built-in 
+<a href="https://docs.microsoft.com/en-us/visualstudio/msbuild/msbuild-task?view=vs-2019#pass-properties-to-projects"><code>AdditionalProperties</code> attribute</a>.</p>
+</blockquote>
+<p>Finally, you can focedly turn a project reference build output into a private asset even if it defines a <code>PackageId</code> by adding <code>PrivateAssets=all</code>. This is very useful for build and analyzer packages, which typically reference the main library project too, but need its output as private, since neither can use dependencies at run-time.</p>
+<h2 id="packaging-projects">Packaging Projects</h2>
+<p>Typically, when creating a package involves more than one project (i.e. main library, some 
+build tasks + targets, some other runtime tools), you will want to create a separate packaging 
+project that is <em>not</em> a typical class library. For that purpose, you can create an <code>.msbuildproj</code> 
+which has built-in support in Visual Studio. It can use the <code>Microsoft.Build.NoTargets</code> SDK as follows:</p>
+<pre><code class="lang-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;Project Sdk=&quot;Microsoft.Build.NoTargets/3.5.0&quot;&gt;
+  &lt;PropertyGroup&gt;
+    &lt;PackageId&gt;MyPackage&lt;/PackageId&gt;
+    &lt;TargetFramework&gt;netstandard2.0&lt;/TargetFramework&gt;
+  &lt;/PropertyGroup&gt;
+&lt;/Project&gt;
+</code></pre><blockquote><p>NOTE: the requirement of a <code>TargetFramework</code> comes from the underlying SDK and the .NET SDK 
+targets themselves, but this kind of project will not build any output. Running the <code>nugetize</code> 
+on this project (after a <code>dotnet restore</code>) would render:</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/devlooped/nugetizer/main/img/nugetize-authoring-1.png" alt="nugetize authoring screenshot"></p>
+<p>If you add a project reference to a build tasks project like the following:</p>
+<pre><code class="lang-xml">&lt;Project Sdk=&#39;Microsoft.NET.Sdk&#39;&gt;
+  &lt;PropertyGroup&gt;
+    &lt;TargetFramework&gt;netstandard2.0&lt;/TargetFramework&gt;
+    &lt;PackFolder&gt;buildTransitive&lt;/PackFolder&gt;
+  &lt;/PropertyGroup&gt;
+  &lt;ItemGroup&gt;
+    &lt;PackageReference Include=&#39;Microsoft.Build.Tasks.Core&#39; Version=&#39;16.6.0&#39; /&gt;
+  &lt;/ItemGroup&gt;
+&lt;/Project&gt;
+</code></pre><blockquote><p>NOTE: this project would contain MSBuild tasks, and likely a [PackageId].targets alongside so that 
+it&#39;s automatically imported in consuming projects. </p>
+</blockquote>
+<p>The packaging project would now look as follows:</p>
+<pre><code class="lang-xml">&lt;Project Sdk=&#39;Microsoft.Build.NoTargets/3.5.0&#39;&gt;
+  &lt;PropertyGroup&gt;
+    &lt;TargetFramework&gt;netstandard2.0&lt;/TargetFramework&gt;
+    &lt;PackageId&gt;MyPackage&lt;/PackageId&gt;
+  &lt;/PropertyGroup&gt;
+  &lt;ItemGroup&gt;
+    &lt;ProjectReference Include=&#39;..\Tasks\Tasks.csproj&#39; /&gt;
+  &lt;/ItemGroup&gt;
+&lt;/Project&gt;
+</code></pre><p>And <code>nugetize</code> would show the following package structure:</p>
+<p><img src="https://raw.githubusercontent.com/devlooped/nugetizer/main/img/nugetize-authoring-2.png" alt="nugetize authoring screenshot"></p>
+<p>Note that the targets file was automatically added to the package as expected. Packaging projects 
+can reference other packaging projects in turn for complex packing scenarios too.</p>
+<p>If the packaging project references both a build-targeting project (such as the one above) and 
+also a regular library project, the package contents becomes the aggregation of the contents 
+contributed by each referenced project automatically. For example, if you add a project reference 
+from the packaging project to the following class library project:</p>
+<pre><code class="lang-xml">&lt;Project Sdk=&#39;Microsoft.NET.Sdk&#39;&gt;
+  &lt;PropertyGroup&gt;
+    &lt;TargetFrameworks&gt;netstandard2.0;net6.0&lt;/TargetFrameworks&gt;
+  &lt;/PropertyGroup&gt;
+  &lt;ItemGroup&gt;
+    &lt;PackageReference Include=&#39;System.Text.Json&#39; Version=&#39;6.0.0&#39; /&gt;
+  &lt;/ItemGroup&gt;
+&lt;/Project&gt;
+</code></pre><p>The content would now be:</p>
+<p><img src="https://raw.githubusercontent.com/devlooped/nugetizer/main/img/nugetize-authoring-3.png" alt="nugetize authoring screenshot"></p>
+<p>You can also add a reference to a CLI <em>tools</em> program like the following:</p>
+<pre><code class="lang-xml">
+&lt;Project Sdk=&#39;Microsoft.NET.Sdk&#39;&gt;
+  &lt;PropertyGroup&gt;
+    &lt;TargetFramework&gt;net6.0&lt;/TargetFramework&gt;
+    &lt;PackFolder&gt;tools&lt;/PackFolder&gt;
+    &lt;!-- We don&#39;t need this particular tool in a framework-specific subfolder under /tools --&gt;
+    &lt;BuildOutputFrameworkSpecific&gt;false&lt;/BuildOutputFrameworkSpecific&gt;
+  &lt;/PropertyGroup&gt;
+  &lt;ItemGroup&gt;
+    &lt;PackageReference Include=&#39;System.CommandLine&#39; Version=&#39;2.0.0-beta3.22114.1&#39; PrivateAssets=&#39;all&#39; /&gt;
+  &lt;/ItemGroup&gt;
+&lt;/Project&gt;
+</code></pre><p><img src="https://raw.githubusercontent.com/devlooped/nugetizer/main/img/nugetize-authoring-4.png" alt="nugetize authoring screenshot"></p>
+<p>As you can see, it&#39;s quite trivial to build fairly complex packages using very intuitive defaults and 
+content inference. </p>
+<h2 id="advanced-features">Advanced Features</h2>
+<p>This section contains miscellaneous useful features that are typically used in advanced scenarios and 
+are not necessarily mainstream.</p>
+<h3 id="dynamically-extending-package-contents">Dynamically Extending Package Contents</h3>
+<p>If you need to calculate additional items to inject into the package dynamically, you can run a target 
+before <code>GetPackageContents</code>, which is the target NuGetizer uses before packing to determine what needs 
+to be included. At this point you can add arbitrary <code>&lt;PackageFile ... PackagePath=... /&gt;</code> items laying 
+out precisely what it is you want to inject into the .nupkg. For example:</p>
+<pre><code class="lang-xml">&lt;Target Name=&quot;AddPackageContents&quot; BeforeTargets=&quot;GetPackageContents&quot;&gt;
+    &lt;ItemGroup&gt;
+        &lt;PackageFile Include=&quot;$(MSBuildProjectDirectory)\..\docs\**\*.md&quot; PackagePath=&quot;docs\%(RelativeDir)%(Filename)%(Extension)&quot; /&gt;
+    &lt;/ItemGroup&gt;
+&lt;/Target&gt;
+</code></pre><p>This example will add all markdown files in a <code>docs</code> folder one level above the current project, and 
+place them all under the <code>docs</code> folder in the <code>.nupkg</code>, preserving their original folder structure.</p>
+<h3 id="packing-arbitrary-files-from-referenced-packages">Packing arbitrary files from referenced packages</h3>
+<p>If you want to pack files from referenced packages, you can simply add <code>PackageReference</code> attribute 
+to <code>PackageFile</code>. Say we want to reuse the awesome icon from the 
+<a href="https://nuget.org/packages/ThisAssembly">ThisAssembly</a> package, we can just bring it in with:</p>
+<pre><code class="lang-xml">&lt;ItemGroup&gt;
+  &lt;PackageFile Include=&quot;icon-128.png&quot; PackagePath=&quot;icon.png&quot; PackageReference=&quot;ThisAssembly&quot; /&gt;
+&lt;/ItemGroup&gt;
+</code></pre><p>The project will need to reference that package too, of course:</p>
+<pre><code class="lang-xml">&lt;ItemGroup&gt;
+  &lt;PackageReference Include=&quot;ThisAssembly&quot; Version=&quot;1.0.0&quot; GeneratePathProperty=&quot;true&quot; Pack=&quot;false&quot; /&gt;
+&lt;/ItemGroup&gt;
+</code></pre><p>Note that we had to add the <code>GeneratePathProperty</code> to the reference, so that the package-relative 
+path <code>icon-128.png</code> can be properly resolved to the package install location. You can also set that 
+metadata for all your <code>PackageReference</code>s automatically by adding the following to your <code>Directory.Build.props</code> 
+(or .targets): </p>
+<pre><code class="lang-xml">  &lt;ItemDefinitionGroup&gt;
+    &lt;PackageReference&gt;
+      &lt;!-- This enables referencing arbitrary files from any package by adding PackageReference=&quot;&quot; to any packable item --&gt;
+      &lt;GeneratePathProperty&gt;true&lt;/GeneratePathProperty&gt;
+    &lt;/PackageReference&gt;
+</code></pre><p>Also note that in the scenario shown before, we don&#39;t want to pack the reference as a dependency (it&#39;s a build-only or development 
+dependency package). That is, this feature does not require a package <em>dependency</em> for the referenced package content 
+we&#39;re bringing in.</p>
+<p>It even works for inferred content item types, such as <code>None</code>:</p>
+<pre><code class="lang-xml">&lt;ItemGroup&gt;
+  &lt;None Include=&quot;icon-128.png&quot; PackageReference=&quot;ThisAssembly&quot; /&gt;
+&lt;/ItemGroup&gt;
+</code></pre><h3 id="skip-build-during-pack">Skip Build during Pack</h3>
+<p>If you are building explicitly prior to running <code>Pack</code> (and you&#39;re not using 
+<code>PackOnBuild=true</code>), you might want to optimize the process by skipping the 
+automatic <code>Build</code> run that happens by default when you run <code>Pack</code> by setting 
+<code>BuildOnPack=false</code>. Not building before <code>Pack</code> with <code>BuildOnPack=false</code> 
+can cause the target run to fail since output files expected by the packaging 
+might be missing (i.e. the primary output, content files, etc.).</p>
+<p>This option is useful in combination with <code>BuildProjectReferences=false</code> when 
+packing on CI, since at that point all that&#39;s run are the P2P protocol involving 
+<code>GetPackageContents</code>.</p>
+<!-- include https://github.com/devlooped/sponsors/raw/main/footer.md -->
+<h1 id="sponsors">Sponsors</h1>
+<!-- sponsors.md -->
+<p><a href="https://github.com/clarius"><img src="https://raw.githubusercontent.com/devlooped/sponsors/main/.github/avatars/clarius.png" alt="Clarius Org" title="Clarius Org"></a>
+<a href="https://github.com/MelbourneDeveloper"><img src="https://raw.githubusercontent.com/devlooped/sponsors/main/.github/avatars/MelbourneDeveloper.png" alt="Christian Findlay" title="Christian Findlay"></a>
+<a href="https://github.com/augustoproiete"><img src="https://raw.githubusercontent.com/devlooped/sponsors/main/.github/avatars/augustoproiete.png" alt="C. Augusto Proiete" title="C. Augusto Proiete"></a>
+<a href="https://github.com/KirillOsenkov"><img src="https://raw.githubusercontent.com/devlooped/sponsors/main/.github/avatars/KirillOsenkov.png" alt="Kirill Osenkov" title="Kirill Osenkov"></a>
+<a href="https://github.com/MFB-Technologies-Inc"><img src="https://raw.githubusercontent.com/devlooped/sponsors/main/.github/avatars/MFB-Technologies-Inc.png" alt="MFB Technologies, Inc." title="MFB Technologies, Inc."></a>
+<a href="https://github.com/sandrock"><img src="https://raw.githubusercontent.com/devlooped/sponsors/main/.github/avatars/sandrock.png" alt="SandRock" title="SandRock"></a>
+<a href="https://github.com/eeseewy"><img src="https://raw.githubusercontent.com/devlooped/sponsors/main/.github/avatars/eeseewy.png" alt="Eric C" title="Eric C"></a>
+<a href="https://github.com/agocke"><img src="https://raw.githubusercontent.com/devlooped/sponsors/main/.github/avatars/agocke.png" alt="Andy Gocke" title="Andy Gocke"></a></p>
+<!-- sponsors.md -->
+<p><a href="https://github.com/sponsors/devlooped"><img src="https://raw.githubusercontent.com/devlooped/sponsors/main/sponsor.png" alt="Sponsor this project" title="Sponsor this project"></a>
+&nbsp;</p>
+<p><a href="https://github.com/sponsors">Learn more about GitHub Sponsors</a></p>
+<!-- https://github.com/devlooped/sponsors/raw/main/footer.md -->
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/devlooped/nugetizer/blob/docs/readme.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="styles/docfx.js"></script>
+    <script type="text/javascript" src="styles/main.js"></script>
+  </body>
+</html>

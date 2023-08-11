@@ -1,0 +1,296 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Overview | NuGetizer </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Overview | NuGetizer ">
+    <meta name="generator" content="docfx 2.59.4.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="overview">Overview</h1>
+
+<div class="TIP"><h5>Tip</h5><p>Run this example directly in your browser by navigating to the 
+<code>docs/scenarios/overview</code> folder and running <code>nugetize</code> in a 
+<a href="https://github.com/codespaces/new?hide_repo_select=true&amp;ref=docs&amp;repo=297430130&amp;machine=basicLinux32gb&amp;devcontainer_path=.devcontainer%2Fdevcontainer.json"><img src="https://img.shields.io/badge/-GitHub%20codespace-black?logo=github" alt="GitHub Codespaces"></a></p>
+</div>
+<p>This example showcases the most basic usage of NuGetizer. 
+It creates a NuGet package from a single project and uses some of the 
+most common packaging metadata properties (which are fully compatible 
+with the <a href="https://learn.microsoft.com/en-us/nuget/reference/msbuild-targets#pack-target">SDK pack ones</a>)</p>
+<p>Run <code>dotnet restore</code> from this directory, and then run the <code>nugetize</code> 
+<a href="https://nuget.org/packages/dotnet-nugetizer">tool</a> to see the package 
+layout that will be produced.</p>
+<p>For the following project file:</p>
+<pre><code class="lang-xml">&lt;Project Sdk=&quot;Microsoft.NET.Sdk&quot;&gt;
+
+  &lt;PropertyGroup&gt;
+    &lt;TargetFramework&gt;netstandard2.0&lt;/TargetFramework&gt;
+    &lt;GenerateDocumentationFile&gt;true&lt;/GenerateDocumentationFile&gt;
+
+    &lt;PackageId&gt;Quickstart&lt;/PackageId&gt;
+    &lt;Authors&gt;NuGetizer&lt;/Authors&gt;
+    &lt;Description&gt;NuGetized quickstart&lt;/Description&gt;
+
+    &lt;PublishRepositoryUrl&gt;true&lt;/PublishRepositoryUrl&gt;
+  &lt;/PropertyGroup&gt;
+
+  &lt;ItemGroup&gt;
+    &lt;PackageReference Include=&quot;NuGetizer&quot; /&gt;
+    &lt;PackageReference Include=&quot;Microsoft.SourceLink.GitHub&quot; Version=&quot;1.1.1&quot; 
+                      PrivateAssets=&quot;all&quot; /&gt;
+    &lt;PackageReference Include=&quot;Newtonsoft.Json&quot; Version=&quot;13.0.1&quot; /&gt;
+  &lt;/ItemGroup&gt;
+
+  &lt;ItemGroup&gt;
+    &lt;None Include=&quot;none.txt&quot; Pack=&quot;true&quot; /&gt;
+    &lt;Content Include=&quot;content.txt&quot; Pack=&quot;true&quot; /&gt;
+    &lt;Compile Update=&quot;@(Compile)&quot; Pack=&quot;true&quot; /&gt;
+  &lt;/ItemGroup&gt;
+
+&lt;/Project&gt;
+</code></pre><p>The following package contents will be produced:</p>
+<p><img src="../../../img/scenarios/overview/quickstart.png" alt="nugetize output"></p>
+<p>Highlights from the project file:</p>
+<ul>
+<li>The standard <a href="https://learn.microsoft.com/en-us/nuget/reference/msbuild-targets#pack-target">SDK pack</a> 
+MSBuild properties are used to specify the package metadata:</li>
+</ul>
+<pre><code class="lang-xml">&lt;PackageId&gt;Quickstart&lt;/PackageId&gt;
+&lt;Authors&gt;NuGetizer&lt;/Authors&gt;
+&lt;Description&gt;NuGetized quickstart&lt;/Description&gt;
+</code></pre><ul>
+<li>Generated XML API docs are included in the package alongside the binaries and 
+symbols, under the right target framework path:</li>
+</ul>
+<pre><code class="lang-xml">&lt;TargetFramework&gt;netstandard2.0&lt;/TargetFramework&gt;
+&lt;GenerateDocumentationFile&gt;true&lt;/GenerateDocumentationFile&gt;
+</code></pre><p><img src="../../../img/scenarios/overview/lib.png" alt="nugetize output"></p>
+<ul>
+<li><p>NuGetizer itself is never considered a dependency of the package, even if it does not specify <code>PrivateAssets=&quot;all&quot;</code> on its package reference.</p>
+</li>
+<li><p>The <code>Newtonsoft.Json</code> package reference becomes a dependency for the project&#39;s current target framework:</p>
+</li>
+</ul>
+<p><img src="../../../img/scenarios/overview/dependency.png" alt="nugetize output"></p>
+<ul>
+<li>Since <a href="https://devblogs.microsoft.com/nuget/introducing-source-code-link-for-nuget-packages/">NuGet.org surfaces source code repository information</a> and <a href="https://devblogs.microsoft.com/dotnet/producing-packages-with-source-link/">using Source Link</a> is the recommended way to provide it, NuGetizer will automatically detect it in the project and populate the relevant metadata. In this package reference case, you can also see NuGetizer honoring the <code>PrivateAssets=&quot;all&quot;</code> attribute and not including it as a dependency. The <a href="https://github.com/dotnet/sourcelink/blob/main/docs/README.md#publishrepositoryurl">PublishRepositoryUrl</a> property controls whether the <code>ProjectUrl</code> and <code>RepositoryUrl</code> metadata are made public:</li>
+</ul>
+<pre><code class="lang-xml">&lt;PublishRepositoryUrl&gt;true&lt;/PublishRepositoryUrl&gt;
+</code></pre><p><img src="../../../img/scenarios/overview/sourcelink.png" alt="nugetize output"></p>
+<ul>
+<li>Built-in item groups like <code>None</code>, <code>Content</code> and <code>Compile</code> can be used or updated with <code>Pack=true</code> for inclusion in the package:</li>
+</ul>
+<pre><code class="lang-xml">&lt;ItemGroup&gt;
+  &lt;None Include=&quot;none.txt&quot; Pack=&quot;true&quot; /&gt;
+  &lt;Content Include=&quot;content.txt&quot; Pack=&quot;true&quot; /&gt;
+  &lt;Compile Update=&quot;@(Compile)&quot; Pack=&quot;true&quot; /&gt;
+&lt;/ItemGroup&gt;
+</code></pre><p><img src="../../../img/scenarios/overview/content.png" alt="nugetize output"></p>
+<p>  Note how the <code>None</code> items are included in the package root by default while the <code>Content</code> items are included in the <code>contentFiles</code> folder and automatically follow the <a href="https://learn.microsoft.com/en-us/nuget/reference/nuspec#package-folder-structure">contentFiles guidance</a>. </p>
+<div class="NOTE"><h5>Note</h5><p>In another example we&#39;ll see how to further annotate these items to modify their <code>buildAction</code>, <code>copyToOutput</code> and <code>flatten</code> <a href="https://learn.microsoft.com/en-us/nuget/reference/nuspec#using-the-contentfiles-element-for-content-files">behaviors</a>.</p>
+</div>
+<ul>
+<li>If a <code>readme.md</code> (or <code>.txt</code>) file is present in the project directory, it is automatically included in the package as the <a href="https://learn.microsoft.com/en-us/NuGet/nuget-org/package-readme-on-nuget-org">readme file to be rendered by nuget.org</a>. See <a href="https://www.nuget.org/packages/ThisAssembly.Constants">an example of a comprehensive readme</a>.</li>
+</ul>
+<hr>
+<h2 id="packagefile-all-the-things">PackageFile All The Things</h2>
+<p>At its core, NuGetizer just packs any <code>&lt;PackageFile&gt;</code> in your project. These items can declare the following metadata to affect the resulting location of a file in the package:</p>
+<table>
+<thead>
+<tr>
+<th>Metadata</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PackagePath</td>
+<td>The relative path of the file within the package.</td>
+</tr>
+<tr>
+<td>PackFolder</td>
+<td>The <a href="TODO://LINK">known folder</a> within the package where the file will be placed.</td>
+</tr>
+<tr>
+<td>FrameworkSpecific</td>
+<td>Whether the <code>PackFolder</code> should be considered as framework-specific.</td>
+</tr>
+</tbody>
+</table>
+<p>When <code>PackagePath</code> is provided, it determines the precise location of the file within the package and the other attributes are ignored. </p>
+<p>When <code>PackFolder</code> is provided (i.e. <code>lib</code> or <code>build</code>), the <code>FrameworkSpecific</code> metadata complements it by optionally appending the project target framework automatically.</p>
+<p>For example, given the following <a href="docs/scenarios/quickstart/Quickstart.csproj">project file</a>:</p>
+<!-- Can not find reference docs/scenarios/quickstart/packagefile/Quickstart.csproj -->
+<p><img src="img/scenarios/quickstart/packagefile.png" alt="nugetize output"></p>
+<p>Note the relationship between the metadata in each of the  <code>PackageFile</code> items and their resulting placement within the package.</p>
+<p>It might seem that the <code>lib</code> folder is &quot;special&quot; since it got some items we didn&#39;t declare as <code>PackageFile</code> at all, namely, the project&#39;s main build output. But that&#39;s not the case at all. If we set the following property at the project level:</p>
+<pre><code class="lang-xml">&lt;EnablePackInference&gt;false&lt;/EnablePackInference&gt;
+</code></pre><p>The <code>nugetize</code> output will now be:</p>
+<p><img src="img/scenarios/quickstart/noinference.png" alt="nugetize with no inference"></p>
+<p>This introduces the concept of <em>package contents inference</em>, where certain heuristics turn common packing scenarios into <em>implicit</em> <code>PackageFile</code> items, such as the primary build output shown above.</p>
+<h2 id="package-contents-inference">Package Contents Inference</h2>
+<p>A set of built-in rules (enabled by default) turn common MSBuild items into <code>PackageFile</code> to make common packing scenarios more intuitive and automatic. These rules can be turned off as mentioned by setting <code>EnablePackInference=false</code>.</p>
+<p>The rules attempt to map common items to <a href="TODO://LINK">known NuGet package folders</a>, such as <code>lib</code>, <code>build</code> or <code>contentFiles</code> by transforming them into corresponding <code>PackageFile</code> items, just as if you had added them by hand, annotating them with the corresponding <code>PackFolder</code> and (optional) <code>FrameworkSpecific</code> metadata.</p>
+<h3 id="packfolder-and-frameworkspecific">PackFolder and FrameworkSpecific</h3>
+<p>NuGetizer leverages the concept of <code>PackageFile</code> for <em>all</em> content within a package, not just files. For example,  dependencies (via <code>PackageReference</code>s) and framework references (via <code>Reference</code>) are turned into <code>PackageFile</code>s with <code>PackFolder=Dependency</code> and <code>PackFolder=FrameworkReference</code> respectively. Even the package metadata itself is just another <code>PackageFile</code>! (with <code>PackFolder=Metadata</code>)</p>
+<p>This allows extending <em>all</em> packing content (inferred or otherwise) via plain MSBuild item manipulation, and provides unparalelled consistency and extensibility.</p>
+<p>When an item specifies <em>FrameworkSpecific=true</em>, the project&#39;s target framework is added to the final package path, such as <code>lib\netstandard2.0\My.dll</code>. Since the package folder itself typically determines whether it contains framework-specific files or not, the <em>FrameworkSpecific</em> value has sensible defaults so you don&#39;t have to specify it unless you want to override it. The default values are:</p>
+<table>
+<thead>
+<tr>
+<th>PackFolder</th>
+<th>FrameworkSpecific</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>content (*)</td>
+<td>true</td>
+</tr>
+<tr>
+<td>lib</td>
+<td>true</td>
+</tr>
+<tr>
+<td>dependency (**)</td>
+<td>true</td>
+</tr>
+<tr>
+<td>frameworkReference (**)</td>
+<td>true</td>
+</tr>
+<tr>
+<td>build/buildTransitive</td>
+<td>false</td>
+</tr>
+<tr>
+<td>all others (***)</td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+<p>* Since the plain <em>content</em> folder <a href="https://docs.nuget.org/ndocs/schema/nuspec#using-the-contentfiles-element-for-content-files">is deprecated as of NuGet v3+</a>, we use <em>content</em> to mean <em>contentFiles</em> throughout the docs, targets and implementation. They are interchangeable in NuGetizer and always mean the latter.</p>
+<p>** <em>dependency</em> and <em>frameworkReference</em> are pseudo folders containing the package references and framework (<code>&lt;Reference ...</code>) references.</p>
+<p>*** tool(s), native, runtime(s), ref, analyzer(s), source/src, any custom folder name.</p>
+<p>In order to make the inference more useful and easy to tweak, there are <code>Pack*</code> properties to turn off inference for entire types of items (i.e. <code>PackContent=[true|false]</code>) as well as per-item <code>Pack=[true|false]</code> to turn on/off individually for certain items.</p>
+<h3 id="project-build-output">Project Build Output</h3>
+<p>The <code>PackFolder</code> property (at the project level) determines the <em>PackFolder</em> metadata value for the build outputs of the project (and its XML API docs, pdb and other related files like satellite assemblies). It defaults to <code>lib</code> and as shown in the previous section, has a default of <code>FrameworkSpecific=true</code> since that&#39;s the most common case.</p>
+<p>This means that by default, a project&#39;s output will end up under <code>lib\[target framework]</code> in the package.</p>
+<p>But if your project contains MSBuild custom tasks and targets, for example, you can set <code>PackFolder=build</code> on the project and the output will automatically end up under <code>build</code> instead (with no target framework subfolder by default). This is because build tasks are usually built targeting <code>netstandard2.0</code> but can be consumed/run from projects targetting other frameworks.</p>
+<!-- Can not find reference docs/scenarios/quickstart/build/Quickstart.csproj -->
+<p><img src="img/scenarios/quickstart/build.png" alt="nugetize output"></p>
+<p>Note how NuGetizer is smart about the <code>Microsoft.Build.Tasks.Core</code> package reference in a <code>build</code> targeting project: these dependencies should never become dependencies of your package, since they are only used for building the tasks assembly itself, not for consuming them. </p>
+<p>Also note how a <code>PackNone=true</code> property turns on automatic packing of <code>None</code> items, in this case a <code>Quickstart.targets</code> file alongside the project file, which is the typical way MSBuild tasks are consumed.</p>
+<h3 id="package-readme">Package Readme</h3>
+<p>If you create a <code>readme.md</code> file alongside the project, it will (by default) be automatically included in the package and set as the <code>Readme</code> metadata. Likewise, if you provide the <code>$(PackageReadmeFile)</code> property pointing to a different filename (say, <code>readme.txt</code>), it will also be automatically added to the package.</p>
+<p>Package readme inference can be turned off with the <code>PackReadme=false</code> project property.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/devlooped/nugetizer/blob/docs/docs/scenarios/overview/readme.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

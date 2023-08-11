@@ -1,0 +1,34 @@
+﻿<Project>
+
+  <PropertyGroup>
+    <RestoreSources>https://pkg.kzu.io/index.json;https://api.nuget.org/v3/index.json</RestoreSources>
+    <LangVersion>Latest</LangVersion>
+
+    <!-- See https://learn.microsoft.com/en-us/visualstudio/msbuild/property-functions?view=vs-2022 -->
+    <OSPlatform Condition="$([MSBuild]::IsOSPlatform('Linux'))">Linux</OSPlatform>
+    <OSPlatform Condition="$([MSBuild]::IsOSPlatform('OSX'))">OSX</OSPlatform>
+    <OSPlatform Condition="$([MSBuild]::IsOSPlatform('Windows'))">Windows</OSPlatform>    
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GetPackageContentsDependsOn>
+      RemoveFakeCompile;
+      $(GetPackageContentsDependsOn)
+    </GetPackageContentsDependsOn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Avoids build failure due to empty @(Compile) -->
+    <Compile Include="$(MSBuildThisFileDirectory)_._" Visible="false" />
+  </ItemGroup>
+
+  <Target Name="RemoveFakeCompile">
+    <!-- Removes the fake _._ file so it doesn't polute the scenarios output -->
+    <ItemGroup>
+      <Compile Remove="$(MSBuildThisFileDirectory)_._" />
+    </ItemGroup>
+  </Target>
+
+  <Import Project="Directory.props.user" Condition="Exists('Directory.props.user')" />
+
+</Project>

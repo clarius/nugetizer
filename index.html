@@ -1,0 +1,525 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Quickstart | NuGetizer </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Quickstart | NuGetizer ">
+    <meta name="generator" content="docfx 2.59.4.0">
+    
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles/docfx.vendor.css">
+    <link rel="stylesheet" href="styles/docfx.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="docs/toc.html">
+    
+    <meta property="docfx:rel" content="">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="index.html">
+                <img id="logo" class="svg" src="logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="quickstart">Quickstart</h1>
+
+<p>NuGetizer is a drop-in replacement for the .NET SDK built-in Pack (a.k.a. &quot;SDK Pack&quot;), which instantly supercharges your ability to customize and extend the packing process in a consistent and easy to understand process designed and centered around best practices in MSBuild design and extensibility.</p>
+<p>Yes, this means you&#39;ll never need to write a <code>.nuspec</code> by hand ever again, no matter how complicated or advanced your packing scenarios are.</p>
+<p>Since packing is an exercise in getting the resulting .nupkg to contain exactly what you expect it to contain, <em>NuGetizer</em> provides a .NET global tool that allows you to quickly and iteratively test your packing scenarios, without incurring in lengthy builds, zipping and subsequent unzipping of the .nupkg for each attempt and so on. </p>
+<p>Install the tool like any other .NET global tool with:</p>
+<pre><code>dotnet tool install -g dotnet-nugetize
+</code></pre><p>Afterwards, from a directory containing your solution or project, just run <code>nugetize</code>. This 
+will provide a quick render of the package metadata, dependencies and contents, 
+such as:</p>
+<p><img src="img/scenarios/overview/quickstart.png" alt="nugetize output"></p>
+<div class="TIP"><h5>Tip</h5><p>For added convenience in exploring <strong>NuGetizer</strong>&#39;s capabilities, you can run all 
+the examples in this documentation directly in your browser in a <a href="https://github.com/codespaces/new?hide_repo_select=true&amp;ref=docs&amp;repo=297430130&amp;machine=basicLinux32gb&amp;devcontainer_path=.devcontainer%2Fdevcontainer.json"><img src="https://img.shields.io/badge/-GitHub%20Codespace-black?logo=github" alt="GitHub Codespace"></a></p>
+</div>
+<p>Getting started is really easy with powerful (yet flexible) built-in <a href="https://github.com/devlooped/nugetizer#package-contents-inference">package contents inference</a> and a few properties and item metadata that are named and used consistently in a wide variety of common MSBuild items:</p>
+<table>
+<thead>
+<tr>
+<th>Item Metadata</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pack</td>
+<td>Whether to pack an item. (<code>true</code>|<code>false</code>)</td>
+</tr>
+<tr>
+<td>PackagePath</td>
+<td>The relative path of the file within the package. Implicitly means <code>Pack=true</code>.</td>
+</tr>
+<tr>
+<td>PackFolder</td>
+<td>The <a href="https://github.com/NuGet/NuGet.Client/blob/dev/src/NuGet.Core/NuGet.Packaging/PackagingConstants.cs#L19">known folder</a> within the package where the file will be placed. Implicitly means <code>Pack=true</code>. Useful in combination with <code>FrameworkSpecific</code>.</td>
+</tr>
+<tr>
+<td>FrameworkSpecific</td>
+<td>Whether the <code>PackFolder</code> should be considered as framework-specific. (<code>true</code>|<code>false</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>If an item is <em>framework-specific</em>, the project&#39;s <code>TargetFramwework</code> will be used to calculate the final <code>PackagePath</code> automatically (i.e. <code>/lib/netstandard2.0/Lib.dll</code> or <code>/contentFiles/cs/net7.0-android/Api.cs</code>).</p>
+<p>For example, to prevent a <code>&lt;PackageReference&gt;</code> from becoming a package dependency, you can just add <code>Pack=&quot;false&quot;</code> to it. Likewise, to include an arbitrary file in the package, you can just add <code>Pack=true</code> to a <code>&lt;None&gt;</code> item:</p>
+<pre><code class="lang-xml">&lt;ItemGroup&gt;
+    &lt;None Include=&quot;sample.md&quot; Pack=&quot;true&quot; /&gt;
+&lt;/ItemGroup&gt;
+</code></pre><p>If you want to include the item at a specific path, you would instead use <code>PackagePath</code>:</p>
+<pre><code class="lang-xml">&lt;ItemGroup&gt;
+    &lt;None Include=&quot;sample.md&quot; PackagePath=&quot;docs/samples/sample.md&quot; /&gt;
+&lt;/ItemGroup&gt;
+</code></pre><p>Or pack an entire folder: </p>
+<pre><code class="lang-xml">&lt;ItemGroup&gt;
+    &lt;None Include=&quot;docs/**/*.*&quot; PackFolder=&quot;docs&quot; /&gt;
+&lt;/ItemGroup&gt;
+</code></pre><p>The following are some of the project properties affecting package inference defaults:</p>
+<table>
+<thead>
+<tr>
+<th>Properties</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PackBuildOutput</td>
+<td>Whether to pack the project&#39;s build output. (Default <code>true</code>)</td>
+</tr>
+<tr>
+<td>BuildOutputFrameworkSpecific</td>
+<td>Whether the project-s build output shoud be considered framework-specific.</td>
+</tr>
+<tr>
+<td>PackSymbols</td>
+<td>true if PackBuildOutput=true (*)</td>
+</tr>
+<tr>
+<td>PackFolder</td>
+<td>The <a href="https://github.com/NuGet/NuGet.Client/blob/dev/src/NuGet.Core/NuGet.Packaging/PackagingConstants.cs#L19">known folder</a> within the package where the project&#39;s build output will be placed. (Default <code>lib</code>)</td>
+</tr>
+<tr>
+<td>PackContent</td>
+<td>Whether to pack <code>Content</code> items. (Default <code>false</code>)</td>
+</tr>
+<tr>
+<td>PackNone</td>
+<td>Whether to pack <code>None</code> items. (Default <code>false</code>)</td>
+</tr>
+<tr>
+<td>PackReadme</td>
+<td>Whether to pack a <code>readme.md</code> file alongside the project. (Default <code>true</code>)</td>
+</tr>
+<tr>
+<td>PackDependencies</td>
+<td>Whether to process package references. (Default <code>&#39;&#39;</code>, treated as <code>true</code>)</td>
+</tr>
+<tr>
+<td>PackFrameworkReferences</td>
+<td>Whether to pack framework Reference items. (Default <code>true</code> if <code>PackFolder=lib</code>, <code>false</code> if <code>PackDependencies=false</code>)</td>
+</tr>
+<tr>
+<td>PackProjectReferences</td>
+<td>Whether to process project references. (Default <code>true</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>Default value for <code>PackContent</code> is actually smarter: it defaults to <code>true</code> if the <code>Content</code> items have a non-empty <code>CopyToOutputDirectory</code> value.</p>
+<p>Default value for <code>PackNone</code> is equally smarter too: it defaults to <code>true</code> if project&#39;s <code>PackFolder</code> is <code>build</code> or <code>buildTransitive</code>, since that&#39;s the default item type for <code>.props</code> and <code>.targets</code> files in the .NET SDK and in build-targeting projects, it&#39;s the more sensible default.</p>
+<p><code>BuildOutputFrameworkSpecific</code> default value depends on the <code>PackFolder</code> and is the same as for <code>FrameworkSpecific</code> item metadata:</p>
+<table>
+<thead>
+<tr>
+<th>PackFolder</th>
+<th>FrameworkSpecific</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>content (*)</td>
+<td>true</td>
+</tr>
+<tr>
+<td>lib</td>
+<td>true</td>
+</tr>
+<tr>
+<td>dependency (**)</td>
+<td>true</td>
+</tr>
+<tr>
+<td>frameworkReference (**)</td>
+<td>true</td>
+</tr>
+<tr>
+<td>build</td>
+<td>false</td>
+</tr>
+<tr>
+<td>all others (***)</td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+<p>* Since the plain <em>content</em> folder <a href="https://docs.nuget.org/ndocs/schema/nuspec#using-the-contentfiles-element-for-content-files">is deprecated as of NuGet v3+</a>, we use <em>content</em> to mean <em>contentFiles</em> throughout the docs, targets and implementation. They are interchangeable in NuGetizer and always mean the latter.</p>
+<p>** <em>dependency</em> and <em>frameworkReference</em> are pseudo folders containing the package references and framework (<code>&lt;Reference ...</code>) references.</p>
+<p>*** tool(s), native, runtime(s), ref, analyzer(s), source/src, any custom folder.</p>
+<h2 id="project-references">Project References</h2>
+<p>NuGetizer allows each project to determine its contribution to a package by using the items and properties mentioned above. This feature works across project references too (unless <code>PackProjectReferences=false</code>).</p>
+<p>Given the following projects:</p>
+<p><code>Core.csproj</code>:</p>
+<pre><code class="lang-xml">&lt;Project Sdk=&quot;Microsoft.NET.Sdk&quot;&gt;
+
+  &lt;PropertyGroup&gt;
+    &lt;TargetFrameworks&gt;net472;net60&lt;/TargetFrameworks&gt;
+    &lt;PackageId&gt;Core&lt;/PackageId&gt;
+  &lt;/PropertyGroup&gt;
+
+  &lt;ItemGroup&gt;
+    &lt;PackageReference Include=&quot;NuGetizer&quot; /&gt;
+  &lt;/ItemGroup&gt;
+
+  &lt;ItemGroup&gt;
+    &lt;ProjectReference Include=&quot;..\common\Common.csproj&quot; /&gt;
+  &lt;/ItemGroup&gt;
+
+&lt;/Project&gt;
+</code></pre><p><code>Common.csproj</code>:</p>
+<pre><code class="lang-xml">&lt;Project Sdk=&quot;Microsoft.NET.Sdk&quot;&gt;
+
+  &lt;PropertyGroup&gt;
+    &lt;TargetFramework&gt;netstandard2.0&lt;/TargetFramework&gt;
+  &lt;/PropertyGroup&gt;
+
+  &lt;ItemGroup&gt;
+    &lt;PackageReference Include=&quot;NuGetizer&quot; /&gt;
+  &lt;/ItemGroup&gt;
+
+&lt;/Project&gt;
+</code></pre><p>The <code>Core</code> package would contain:</p>
+<p><img src="img/scenarios/quickstart/projectreference.png" alt="package contents for project reference"></p>
+<p>As you can see, <code>Common.csproj</code>&#39;s contribution (a netstandard library) has now become part of the referencing project/package. Neither project changed the default <code>PackFolder</code>, so both are contributing <code>lib</code> content. But since the packing project is <code>Core</code>, it multi-targets and <code>lib</code> content is framework-specific by default, both end up as the <code>lib</code> contents of each of the targeted frameworks.</p>
+<p>If you add a <code>PackFolder=build</code> property to <code>Common.csproj</code> (and perhaps add a targets file and build tasks too):</p>
+<pre><code class="lang-xml" highlight-lines="5,10">&lt;Project Sdk=&quot;Microsoft.NET.Sdk&quot;&gt;
+
+  &lt;PropertyGroup&gt;
+    &lt;TargetFramework&gt;netstandard2.0&lt;/TargetFramework&gt;
+    &lt;PackFolder&gt;build&lt;/PackFolder&gt;
+  &lt;/PropertyGroup&gt;
+
+  &lt;ItemGroup&gt;
+    &lt;PackageReference Include=&quot;NuGetizer&quot; /&gt;
+    &lt;PackageReference Include=&quot;Microsoft.Build.Tasks.Core&quot; Version=&quot;17.2.0&quot; /&gt;
+  &lt;/ItemGroup&gt;
+
+&lt;/Project&gt;
+</code></pre><p>the package contents would instead become:</p>
+<p><img src="img/scenarios/quickstart/projectbuild.png" alt="project reference with build contents"></p>
+<p>Finally, if you set a <code>PackageId</code> on <code>Common.csproj</code>, its content would now be part of a package <em>dependency</em> instead, since the project would be producing its own package now:</p>
+<pre><code class="lang-xml" highlight-lines="5">&lt;Project Sdk=&quot;Microsoft.NET.Sdk&quot;&gt;
+
+  &lt;PropertyGroup&gt;
+    &lt;TargetFramework&gt;netstandard2.0&lt;/TargetFramework&gt;
+    &lt;PackageId&gt;Core.Build&lt;/PackageId&gt;
+    &lt;PackFolder&gt;build&lt;/PackFolder&gt;
+  &lt;/PropertyGroup&gt;
+
+  &lt;ItemGroup&gt;
+    &lt;PackageReference Include=&quot;NuGetizer&quot; /&gt;
+    &lt;PackageReference Include=&quot;Microsoft.Build.Tasks.Core&quot; Version=&quot;17.2.0&quot; /&gt;
+  &lt;/ItemGroup&gt;
+
+&lt;/Project&gt;
+</code></pre><p><img src="img/scenarios/quickstart/projectdependency.png" alt="project reference as dependency"></p>
+<p>And you can turn the dependency into a non-framework specific one (since it&#39;s build targets/tasks and might apply to more than just the targeted frameworks) by annotating the project reference:</p>
+<pre><code class="lang-xml" highlight-lines="13">&lt;Project Sdk=&quot;Microsoft.NET.Sdk&quot;&gt;
+
+  &lt;PropertyGroup&gt;
+    &lt;TargetFrameworks&gt;net472;net60&lt;/TargetFrameworks&gt;
+    &lt;PackageId&gt;Core&lt;/PackageId&gt;
+  &lt;/PropertyGroup&gt;
+
+  &lt;ItemGroup&gt;
+    &lt;PackageReference Include=&quot;NuGetizer&quot; /&gt;
+  &lt;/ItemGroup&gt;
+
+  &lt;ItemGroup&gt;
+    &lt;ProjectReference Include=&quot;..\common\Common.csproj&quot; FrameworkSpecific=&quot;false&quot; /&gt;
+  &lt;/ItemGroup&gt;
+
+&lt;/Project&gt;
+</code></pre><p><img src="img/scenarios/quickstart/projectdependency-no-tf.png" alt="project reference as non-framework specific dependency"></p>
+<p>Finally, you could exclude the project reference entirely from packing by setting <code>&lt;ProjectReference ... Pack=&quot;false&quot; /&gt;</code>, like for any other item type. </p>
+<h2 id="package-references">Package References</h2>
+<p>Package references become package dependencies by default (unless <code>PackDependencies=false</code>), which match the target framework of the project. This is a sensible default for <code>lib</code> projects, as we have seen in the previous section.</p>
+<p>Sometimes, you need to ship your dependency&#39;s files alongside your main library for things to work properly. In such cases, you can use the built-in <code>PrivateAssets=all</code> metadata on the <code>PackageReference</code>, which causes the resolved assets from the dependency to become part of the primary (build) output of the project. </p>
+<p>For example, a build targets/tasks project like:</p>
+<pre><code class="lang-xml" highlight-lines="11">&lt;Project Sdk=&quot;Microsoft.NET.Sdk&quot;&gt;
+
+  &lt;PropertyGroup&gt;
+    &lt;TargetFramework&gt;netstandard2.0&lt;/TargetFramework&gt;
+    &lt;PackageId&gt;Jsonator&lt;/PackageId&gt;
+    &lt;PackFolder&gt;build&lt;/PackFolder&gt;
+ &lt;/PropertyGroup&gt;
+
+  &lt;ItemGroup&gt;
+    &lt;PackageReference Include=&quot;NuGetizer&quot; /&gt;
+    &lt;PackageReference Include=&quot;Newtonsoft.Json&quot; Version=&quot;13.0.2&quot; PrivateAssets=&quot;all&quot; /&gt;
+  &lt;/ItemGroup&gt;
+
+&lt;/Project&gt;
+</code></pre><p>Would result in a package with:</p>
+<p><img src="img/scenarios/quickstart/privateassets.png" alt="package reference as private assets"></p>
+<p>This also works transitively. For a more complex dependency, such as <a href="https://nuget.org/packages/Microsoft.Extensions.Configuration">Microsoft.Extensions.Configuration</a> which brings other dependencies in turn:</p>
+<pre><code class="lang-xml" highlight-lines="12">&lt;Project Sdk=&quot;Microsoft.NET.Sdk&quot;&gt;
+
+  &lt;PropertyGroup&gt;
+    &lt;TargetFramework&gt;netstandard2.0&lt;/TargetFramework&gt;
+    &lt;PackageId&gt;Jsonator&lt;/PackageId&gt;
+    &lt;PackFolder&gt;build&lt;/PackFolder&gt;
+ &lt;/PropertyGroup&gt;
+
+  &lt;ItemGroup&gt;
+    &lt;PackageReference Include=&quot;NuGetizer&quot; /&gt;
+    &lt;PackageReference Include=&quot;Newtonsoft.Json&quot; Version=&quot;13.0.2&quot; PrivateAssets=&quot;all&quot; /&gt;
+    &lt;PackageReference Include=&quot;Microsoft.Extensions.Configuration&quot; Version=&quot;6.0.1&quot; PrivateAssets=&quot;all&quot; /&gt;
+  &lt;/ItemGroup&gt;
+
+&lt;/Project&gt;
+</code></pre><p>We would get the following package contents:</p>
+<p><img src="img/scenarios/quickstart/privateassets-transitive.png" alt="transitive package dependencies as private assets"></p>
+<h2 id="content-and-copytooutputdirectory">Content and CopyToOutputDirectory</h2>
+<p>The simplest way to include arbitrary files alongside your project main build output is to set <code>CopyToOutputDirectory=PreserveNewest</code>. This will cause the items to end up in your output directory:</p>
+<pre><code class="lang-xml" highlight-lines="13">&lt;Project Sdk=&quot;Microsoft.NET.Sdk&quot;&gt;
+
+  &lt;PropertyGroup&gt;
+    &lt;TargetFramework&gt;netstandard2.0&lt;/TargetFramework&gt;
+    &lt;PackageId&gt;Quickstart&lt;/PackageId&gt;
+  &lt;/PropertyGroup&gt;
+
+  &lt;ItemGroup&gt;
+    &lt;PackageReference Include=&quot;NuGetizer&quot; /&gt;
+  &lt;/ItemGroup&gt;
+
+  &lt;ItemGroup&gt;
+    &lt;Content Include=&quot;Sample.txt&quot; CopyToOutputDirectory=&quot;true&quot; /&gt;
+  &lt;/ItemGroup&gt;
+
+&lt;/Project&gt;
+</code></pre><p>Intuitively, they will also end up alongside your primary build output package folder:</p>
+<p><img src="img/scenarios/quickstart/content-copy.png" alt="content with copy to output directory"></p>
+<div class="WARNING"><h5>Warning</h5><p>It&#39;s highly advisable that you <em>never</em> use <code>CopyToOutputDirectory=Always</code>, since it can impact incremental build performance quite significantly and there&#39;s rarely a good reason for using it over <code>PreserveNewest</code>.</p>
+</div>
+<p>If you change the pack folder for the project, the content files will &quot;follow&quot; it. This project includes a <a href="https://nuget.org/packages/Scriban">Scriban</a> template for code generation alongside the build tasks and targets which could use it to emit some code at build time, for example: </p>
+<pre><code class="lang-xml" highlight-lines="6,12,16">&lt;Project Sdk=&quot;Microsoft.NET.Sdk&quot;&gt;
+
+  &lt;PropertyGroup&gt;
+    &lt;TargetFramework&gt;netstandard2.0&lt;/TargetFramework&gt;
+    &lt;PackageId&gt;Quickstart&lt;/PackageId&gt;
+    &lt;PackFolder&gt;build&lt;/PackFolder&gt;
+  &lt;/PropertyGroup&gt;
+
+  &lt;ItemGroup&gt;
+    &lt;PackageReference Include=&quot;NuGetizer&quot; /&gt;
+    &lt;PackageReference Include=&quot;Microsoft.Build.Tasks.Core&quot; Version=&quot;17.2.0&quot; /&gt;
+    &lt;PackageReference Include=&quot;Scriban&quot; Version=&quot;5.6.0&quot; PrivateAssets=&quot;all&quot; /&gt;
+  &lt;/ItemGroup&gt;
+
+  &lt;ItemGroup&gt;
+    &lt;Content CopyToOutput=&quot;true&quot; Update=&quot;*.sbntxt&quot; CopyToOutputDirectory=&quot;true&quot; /&gt;
+  &lt;/ItemGroup&gt;
+
+&lt;/Project&gt;
+</code></pre><p>Note how we&#39;re updating the <code>&lt;Content&gt;</code> items and using a wildcard, since files ending in <code>txt</code> are already added by the .NET SDK as content:</p>
+<p><img src="img/scenarios/quickstart/content-scriban.png" alt="content with copy to output directory"></p>
+<p>NuGetizer is effectively setting (implicitly) the <code>PackFolder</code> of your items to that of the project, whenever you use <code>CopyToOutputDirectory=PreserveNewest</code>. This also works for other item types, such as <code>None</code> (as long as they are packable, that is, they have a <code>Pack=true</code> metadata too, or the project specifies <code>PackNone=true</code>).</p>
+<p>In addition, the packed files for these items will point to the location in the project&#39;s output folder, rather than the source location. This makes it easier to have custom build behavior that might modify the item after copying to the output directory (such as updating a version number in targets). You can see this by opening the generated <code>.nuspec</code> in the NuGetizer output.</p>
+<h3 id="contentfiles">ContentFiles</h3>
+<p>Beyond the previous very simple scenario, however, <a href="https://docs.nuget.org/ndocs/schema/nuspec#using-the-contentfiles-element-for-content-files">content files in a package</a> have much more flexibility through attributes that affect packaging and their inclusion in consumers&#39; projects. NuGetizer supports these in an intuitive way through item metadata on <code>&lt;Content&gt;</code> MSBuild items, namely: <code>BuildAction</code>, <code>CopyToOutput</code> and <code>Flatten</code> item metadata. </p>
+<div class="TIP"><h5>Tip</h5><p>The packing attribute <code>CopyToOutput</code> is different than <code>CopyToOutputDirectory</code>. When you use the latter, you are implicitly changing the item&#39;s <code>PackFolder</code> from <code>Content</code> to the project&#39;s. Therefore, the content packing attributes will not apply.</p>
+</div>
+<p>The package path of content files should also contain the <a href="https://docs.microsoft.com/en-us/nuget/reference/nuspec#package-folder-structure">code language and target framework</a> they apply to, to control more precisely their inclusion in consuming projects, such as <code>contentFiles/cs/netstandard2.0/MyApi.cs</code> (to reference the file only for projects with C# language, targeting <code>netstandard2.0</code> or a compatible framework). You can control those with <code>CodeLanguage</code> and <code>TargetFramework</code> item metadata:</p>
+<pre><code class="lang-xml" highlight-lines="13-18">&lt;Project Sdk=&quot;Microsoft.NET.Sdk&quot;&gt;
+
+  &lt;PropertyGroup&gt;
+    &lt;TargetFramework&gt;netstandard2.0&lt;/TargetFramework&gt;
+    &lt;PackageId&gt;Quickstart&lt;/PackageId&gt;
+  &lt;/PropertyGroup&gt;
+
+  &lt;ItemGroup&gt;
+    &lt;PackageReference Include=&quot;NuGetizer&quot; /&gt;
+  &lt;/ItemGroup&gt;
+
+  &lt;ItemGroup&gt;
+    &lt;!-- This how-to file might showcase C# code which is TF-agnostic --&gt;
+    &lt;Content Include=&quot;HowTo.txt&quot; 
+             BuildAction=&quot;None&quot; 
+             CopyToOutput=&quot;PreserveNewest&quot;
+             CodeLanguage=&quot;cs&quot;
+             TargetFramework=&quot;any&quot; /&gt;
+  &lt;/ItemGroup&gt;
+
+&lt;/Project&gt;
+</code></pre><p><img src="img/scenarios/quickstart/contentfiles.png" alt="content with metadata"></p>
+<p>By default, the target framework subfolder matches the project&#39;s. This can be changed by adding <code>TargetFramework=&quot;any&quot;</code> metadata on the item, as shown above.</p>
+<p>One common scenario is creating source-only packages, where the API is provided as source code directly to consuming projects. To make this process straightforward, NuGetizer defaults <code>Compile</code> items&#39; metadata to <code>PackFolder=&quot;content&quot; BuildAction=&quot;Compile&quot; CodeLanguage=&quot;$(DefaultLanguageSourceExtension)&quot; TargetFramework=&quot;$(TargetFramework)&quot;</code>. This means that by default, all the relevant item metadata for packing compile is already in place. All you need to do is turn packing on for those items by setting <code>PackCompile=true</code> in the project:</p>
+<pre><code class="lang-xml" highlight-lines="6-7">&lt;Project Sdk=&quot;Microsoft.NET.Sdk&quot;&gt;
+
+  &lt;PropertyGroup&gt;
+    &lt;TargetFramework&gt;netstandard2.0&lt;/TargetFramework&gt;
+    &lt;PackageId&gt;Quickstart&lt;/PackageId&gt;
+    &lt;PackCompile&gt;true&lt;/PackCompile&gt;
+    &lt;PackBuildOutput&gt;false&lt;/PackBuildOutput&gt;
+  &lt;/PropertyGroup&gt;
+
+  &lt;ItemGroup&gt;
+    &lt;PackageReference Include=&quot;NuGetizer&quot; /&gt;
+  &lt;/ItemGroup&gt;
+
+&lt;/Project&gt;
+</code></pre><div class="TIP"><h5>Tip</h5><p>In this scenario, it&#39;s most common to also set <code>PackBuildOutput=false</code> to avoid packing the compiled version.</p>
+</div>
+<p><img src="img/scenarios/quickstart/content-compile.png" alt="content with compile"></p>
+<p>Since the packing is separate from the project building itself, you still have a project that compiles, can be referenced by unit tests and so on. This makes it very easy to create multi-targeting source-only packages reliably!</p>
+<h2 id="packaging-projects">Packaging Projects</h2>
+<p>More often than not, a non-trivial package is made up of multiple projects, contributing multiple types of assets (i.e. main library project, analyzers/source generators project, build/tasks project, additional tools). Trying to accomodate every scenario from within a single &quot;top-level&quot; library project can be tricky and not very productive or maintainable.</p>
+<p>NuGetizer supports the SDK-style <code>.msbuildproj</code> project file type which has built-in support in Visual Studio. It can use the <code>Microsoft.Build.NoTargets</code> SDK as follows:</p>
+<pre><code class="lang-xml">&lt;Project Sdk=&quot;Microsoft.Build.NoTargets/3.7.0&quot;&gt;
+
+  &lt;PropertyGroup&gt;
+    &lt;PackageId&gt;Quickstart&lt;/PackageId&gt;
+    &lt;TargetFramework&gt;netstandard2.0&lt;/TargetFramework&gt;
+  &lt;/PropertyGroup&gt;
+
+  &lt;ItemGroup&gt;
+    &lt;PackageReference Include=&quot;NuGetizer&quot; /&gt;
+  &lt;/ItemGroup&gt;
+
+&lt;/Project&gt;
+</code></pre><div class="NOTE"><h5>Note</h5><p>The requirement of a <code>TargetFramework</code> comes from the underlying SDK and the .NET SDK targets themselves, but this kind of project will not build any output. </p>
+</div>
+<p><img src="img/scenarios/quickstart/packaging.png" alt="empty packaging project"></p>
+<p>In addition to referencing any of the projects shown in this Quickstart, packaging projects can also reference other packaging projects in turn for complex packing scenarios too.</p>
+<p>The following is a fairly comprehensive example of a packaging project, including references to build/tasks project, code analysis projcet, multi-targeting main library and additional tools:</p>
+<pre><code class="lang-xml">&lt;Project Sdk=&quot;Microsoft.Build.NoTargets/3.7.0&quot;&gt;
+
+  &lt;PropertyGroup&gt;
+    &lt;PackageId&gt;Quickstart&lt;/PackageId&gt;
+    &lt;TargetFramework&gt;netstandard2.0&lt;/TargetFramework&gt;
+    &lt;PublishRepositoryUrl&gt;true&lt;/PublishRepositoryUrl&gt;
+  &lt;/PropertyGroup&gt;
+
+  &lt;ItemGroup&gt;
+    &lt;PackageReference Include=&quot;NuGetizer&quot; /&gt;
+    &lt;PackageReference Include=&quot;Microsoft.SourceLink.GitHub&quot; Version=&quot;1.1.1&quot; 
+                      PrivateAssets=&quot;all&quot; /&gt;
+  &lt;/ItemGroup&gt;
+
+  &lt;ItemGroup&gt;
+    &lt;ProjectReference Include=&quot;..\Analyzer\Quickstart.CodeAnalysis.csproj&quot; /&gt;
+    &lt;ProjectReference Include=&quot;..\Build\Quickstart.Tasks.csproj&quot; /&gt;
+    &lt;ProjectReference Include=&quot;..\Lib\Quickstart.csproj&quot; /&gt;
+    &lt;ProjectReference Include=&quot;..\Tools\Quickstart.csproj&quot; /&gt;
+  &lt;/ItemGroup&gt;
+
+&lt;/Project&gt;
+</code></pre><p>Which produces the following content:</p>
+<p><img src="img/scenarios/quickstart/packaging-complete.png" alt="packaging project with multiple references"></p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/devlooped/nugetizer/blob/docs/index.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="styles/docfx.js"></script>
+    <script type="text/javascript" src="styles/main.js"></script>
+  </body>
+</html>
